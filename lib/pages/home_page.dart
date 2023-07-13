@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../components/list_form.dart';
+import '../components/pokemon_list_tile.dart';
+import '../providers/controlador_lista.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<ControladorLista>(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Lista pokemon"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context, 
+                builder: (context) => ListForm(
+                  title: "Adicionar pokemon",
+                  labelNome: "Nome do pokemon",
+                  hintNome: "Informe o nome do pokemon",
+                  labelTipo: "Tipo do pokemon",
+                  hintTipo: "Informe o tipo do pokemon",
+                  executar: (nome, tipo) {
+                    provider.adicionarPokemon(nome, tipo);
+                  },
+                ),
+              );
+            }, 
+            icon: const Icon(Icons.add)
+          )
+        ],
+      ),
+      body: provider.pokemons.isEmpty
+      ? const Center(
+        child: Text("Nenhum pokemon adicionado"),
+      )
+      : ListView.builder(
+        itemCount: provider.pokemons.length,
+        itemBuilder: (context, index) {
+          return PokemonListTile(
+            pokemon: provider.pokemons[index],
+            removerPokemon: (id) {
+              provider.removerPokemon(id);
+            },
+            editarPokemon: () => showDialog(
+              context: context, 
+              builder: (context) {
+                return ListForm(
+                  title: "Editar pokemon", 
+                  labelNome: "Novo nome", 
+                  hintNome: "Inform um novo nome", 
+                  labelTipo: "Novo tipo", 
+                  hintTipo: "Informe o novo tipo", 
+                  executar: (nome, tipo) {
+                    provider.editarPokemon(provider.pokemons[index].id, nome, tipo);
+                  }
+                );
+              }
+            ),
+
+          );
+        },
+      ),
+    );
+  }
+}
