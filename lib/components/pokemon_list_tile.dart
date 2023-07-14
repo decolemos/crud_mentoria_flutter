@@ -6,7 +6,7 @@ class PokemonListTile extends StatelessWidget {
 
   final Pokemon pokemon;
   final void Function() editarPokemon;
-  final void Function(int id) removerPokemon;
+  final void Function(String id) removerPokemon;
 
   const PokemonListTile({super.key, 
     required this.pokemon, 
@@ -21,7 +21,7 @@ class PokemonListTile extends StatelessWidget {
         title: Text(pokemon.nome),
         subtitle: Text(pokemon.tipo),
         trailing: SizedBox(
-          width: MediaQuery.of(context).size.width / 100 *30,
+          width: MediaQuery.of(context).size.width / 100 * 20,
           child: Row(
             children: [
               IconButton(

@@ -12,6 +12,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    buscarPokemon();
+  }
+
+  Future<void> buscarPokemon() async {
+    await Future.delayed(const Duration(seconds: 3));
+    await Provider.of<ControladorLista>(context).buscarPokemonViaApi();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ControladorLista>(context);
@@ -62,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   labelTipo: "Novo tipo", 
                   hintTipo: "Informe o novo tipo", 
                   executar: (nome, tipo) {
-                    provider.editarPokemon(provider.pokemons[index].id, nome, tipo);
+                    provider.editarPokemon("provider.pokemons[index].id", nome, tipo);
                   }
                 );
               }

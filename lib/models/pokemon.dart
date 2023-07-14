@@ -1,5 +1,5 @@
 class Pokemon {
-  int id;
+  String id;
   String nome;
   String tipo;
   Pokemon({
