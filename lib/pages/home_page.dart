@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> buscarPokemon() async {
     await Future.delayed(const Duration(seconds: 3));
-    await Provider.of<ControladorLista>(context).buscarPokemonViaApi();
+    await Provider.of<ControladorLista>(context, listen: false).buscarPokemonViaApi();
   }
 
 
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   labelTipo: "Novo tipo", 
                   hintTipo: "Informe o novo tipo", 
                   executar: (nome, tipo) {
-                    provider.editarPokemon("provider.pokemons[index].id", nome, tipo);
+                    provider.editarPokemon(provider.pokemons[index].id, nome, tipo);
                   }
                 );
               }
