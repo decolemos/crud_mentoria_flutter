@@ -6,9 +6,11 @@ class ListForm extends StatefulWidget {
   final String title;
   final String labelNome;
   final String hintNome;
-  final String labelTipo;
-  final String hintTipo;
-  final void Function(String nome, String tipo) executar;
+  final String labelPrimeiroTipo;
+  final String hintPrimeiroTipo;
+  final String labelSegundoTipo;
+  final String hintSegundoTipo;
+  final void Function(String nome, String primeiroTipo, String segundoTipo) executar;
 
   const ListForm({
     Key? key,
@@ -16,8 +18,10 @@ class ListForm extends StatefulWidget {
     required this.title,
     required this.labelNome,
     required this.hintNome,
-    required this.labelTipo,
-    required this.hintTipo,
+    required this.labelPrimeiroTipo,
+    required this.hintPrimeiroTipo,
+    required this.labelSegundoTipo, 
+    required this.hintSegundoTipo, 
     required this.executar, 
   }) : super(key: key);
 
@@ -28,7 +32,7 @@ class ListForm extends StatefulWidget {
 class _ListFormState extends State<ListForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final Map<String, String> _formData = {};
+  final Map<String, String?> _formData = {};
 
   void _submit() {
     if(!_formKey.currentState!.validate()) return; 
@@ -36,7 +40,8 @@ class _ListFormState extends State<ListForm> {
 
     widget.executar(
       _formData["nome"].toString(),
-      _formData["tipo"].toString(),
+      _formData["primeiroTipo"].toString(),
+      _formData["segundoTipo"].toString(),
     );
     Navigator.of(context).pop();
   }
@@ -66,8 +71,8 @@ class _ListFormState extends State<ListForm> {
             ),
             TextFormField(
               decoration: InputDecoration(
-                labelText: widget.labelTipo,
-                hintText: widget.labelTipo
+                labelText: widget.labelPrimeiroTipo,
+                hintText: widget.labelPrimeiroTipo
               ),
               validator:(value) {
                 if(value == null || value.isEmpty) {
@@ -75,7 +80,20 @@ class _ListFormState extends State<ListForm> {
                 }
                 return null;
               },
-              onSaved: (newValue) => _formData["tipo"] = newValue!
+              onSaved: (newValue) => _formData["primeiroTipo"] = newValue!
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: widget.labelSegundoTipo,
+                hintText: widget.labelSegundoTipo
+              ),
+              validator:(value) {
+                if(value == null || value.isEmpty) {
+                  return "Tipo não pode ser vazio";
+                }
+                return null;
+              },
+              onSaved: (newValue) =>  newValue!.isEmpty ? _formData["segundoTipo"] = null : _formData["segundoTipo"] = newValue
             ),
           ],
         ),

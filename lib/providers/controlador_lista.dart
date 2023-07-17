@@ -14,22 +14,24 @@ class ControladorLista extends ChangeNotifier {
   final String url = "https://crudpokemonfirebase-default-rtdb.firebaseio.com";
 
   Future<void> buscarPokemonViaApi() async {
-    final response = await http.get(Uri.parse("$url/pokemons.json"));
-    final jsonResponse = jsonDecode(response.body);
+    try {
+      final response = await http.get(Uri.parse("$url/pokemons.json"));
+      final jsonResponse = jsonDecode(response.body);
 
-    List<Pokemon> lista = [];
+      List<Pokemon> lista = [];
 
-    if(jsonResponse == null) return;
+      if(jsonResponse == null) return;
 
-    for(final key in jsonResponse.keys) {
-      // print(key);
-      // print(jsonResponse[key]["nome"]);
-      // print(jsonResponse[key]["tipo"]);
-      lista.add(Pokemon(id: key, nome: jsonResponse[key]["nome"], tipo: jsonResponse[key]["tipo"]));
-    }
+      for(final key in jsonResponse.keys) {
+        lista.add(Pokemon(id: key, nome: jsonResponse[key]["nome"],primeiroTipo: jsonResponse[key]["primeiroTipo"], segundoTipo: jsonResponse[key]["segundoTipo"]));
+      }
 
     _pokemons = lista;
     notifyListeners();
+
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   bool verificarSeNomeExiste(String nome) {
@@ -37,7 +39,7 @@ class ControladorLista extends ChangeNotifier {
     return index != -1;
   }
 
-  Future<void> adicionarPokemon(String nome, String tipo) async {
+  Future<void> adicionarPokemon(String nome, String primeiroTipo, String? segundoTipo) async {
 
     bool pokemonExiste = verificarSeNomeExiste(nome);
 
@@ -51,27 +53,32 @@ class ControladorLista extends ChangeNotifier {
         Uri.parse("$url/pokemons.json"), 
         body: jsonEncode({
           "nome": nome,
-          "tipo": tipo
+          "primeiroTipo": primeiroTipo,
+          "segundoTipo": segundoTipo
         })
       );
 
       log(response.body.toString());
 
+      if(segundoTipo == null) {
+
+      }
+
       final jsonResponse = jsonDecode(response.body);
-      _pokemons.add(Pokemon(id: jsonResponse["name"], nome: nome, tipo: tipo));
+      _pokemons.add(Pokemon(id: jsonResponse["name"], nome: nome, primeiroTipo: primeiroTipo, segundoTipo: segundoTipo));
       notifyListeners();
     } catch (e) {
       log(e.toString());
     }
   }
 
-  Future<void> editarPokemon(String id, String novoNome, String novoTipo) async {
+  Future<void> editarPokemon(String id, String novoNome, String novoPrimeiroTipo, String novoSegundoTipo) async {
     final response = await http.put(
       Uri.parse("$url/pokemons/$id.json"), 
       body: jsonEncode(
         {
           "nome": novoNome,
-          "tipo": novoTipo
+          "tipo": novoPrimeiroTipo
         }
       ) 
     );
@@ -79,7 +86,7 @@ class ControladorLista extends ChangeNotifier {
     jsonDecode(response.body);
     int index = _pokemons.indexWhere((pokemon) => pokemon.id == id);
     _pokemons[index].nome = novoNome;
-    _pokemons[index].tipo = novoTipo;
+    _pokemons[index].primeiroTipo = novoPrimeiroTipo;
     notifyListeners();
 
   }

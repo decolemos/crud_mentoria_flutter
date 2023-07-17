@@ -41,10 +41,12 @@ class _HomePageState extends State<HomePage> {
                   title: "Adicionar pokemon",
                   labelNome: "Nome do pokemon",
                   hintNome: "Informe o nome do pokemon",
-                  labelTipo: "Tipo do pokemon",
-                  hintTipo: "Informe o tipo do pokemon",
-                  executar: (nome, tipo) {
-                    provider.adicionarPokemon(nome, tipo);
+                  labelPrimeiroTipo: "1º Tipo do pokemon",
+                  hintPrimeiroTipo: "Informe o primeiro tipo do pokemon",
+                  labelSegundoTipo: "2º Tipo do pokemon",
+                  hintSegundoTipo: "Informe o segundo tipo do pokemon",
+                  executar: (nome, primeiroTipo, segundoTipo) {
+                    provider.adicionarPokemon(nome, primeiroTipo, segundoTipo);
                   },
                 ),
               );
@@ -72,10 +74,12 @@ class _HomePageState extends State<HomePage> {
                   title: "Editar pokemon", 
                   labelNome: "Novo nome", 
                   hintNome: "Inform um novo nome", 
-                  labelTipo: "Novo tipo", 
-                  hintTipo: "Informe o novo tipo", 
-                  executar: (nome, tipo) {
-                    provider.editarPokemon(provider.pokemons[index].id, nome, tipo);
+                  labelPrimeiroTipo: "Novo primeiro tipo", 
+                  hintPrimeiroTipo: "Informe o novo primeiro tipo",
+                  labelSegundoTipo: "Novo segundo tipo",
+                  hintSegundoTipo: "Informe o novo segundo tipo",
+                  executar: (nome, primeiroTipo, segundoTipo) {
+                    provider.editarPokemon(provider.pokemons[index].id, nome, primeiroTipo, segundoTipo);
                   }
                 );
               }

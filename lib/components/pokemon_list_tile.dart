@@ -19,7 +19,7 @@ class PokemonListTile extends StatelessWidget {
     return Card(
       child: ListTile(
         title: Text(pokemon.nome),
-        subtitle: Text(pokemon.tipo),
+        subtitle: Text("${pokemon.primeiroTipo} / ${pokemon.segundoTipo}"),
         trailing: SizedBox(
           width: MediaQuery.of(context).size.width / 100 * 20,
           child: Row(
