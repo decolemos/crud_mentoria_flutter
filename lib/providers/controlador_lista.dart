@@ -40,6 +40,7 @@ class ControladorLista extends ChangeNotifier {
   }
 
   Future<void> adicionarPokemon(String nome, String primeiroTipo, String? segundoTipo) async {
+    print(segundoTipo == null);
 
     bool pokemonExiste = verificarSeNomeExiste(nome);
 
@@ -60,10 +61,6 @@ class ControladorLista extends ChangeNotifier {
 
       log(response.body.toString());
 
-      if(segundoTipo == null) {
-
-      }
-
       final jsonResponse = jsonDecode(response.body);
       _pokemons.add(Pokemon(id: jsonResponse["name"], nome: nome, primeiroTipo: primeiroTipo, segundoTipo: segundoTipo));
       notifyListeners();
@@ -72,7 +69,7 @@ class ControladorLista extends ChangeNotifier {
     }
   }
 
-  Future<void> editarPokemon(String id, String novoNome, String novoPrimeiroTipo, String novoSegundoTipo) async {
+  Future<void> editarPokemon(String id, String novoNome, String novoPrimeiroTipo, String? novoSegundoTipo) async {
     final response = await http.put(
       Uri.parse("$url/pokemons/$id.json"), 
       body: jsonEncode(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:list_crud_pokemon/components/dropdown_tipo.dart';
 
 class ListForm extends StatefulWidget {
 
@@ -10,7 +11,7 @@ class ListForm extends StatefulWidget {
   final String hintPrimeiroTipo;
   final String labelSegundoTipo;
   final String hintSegundoTipo;
-  final void Function(String nome, String primeiroTipo, String segundoTipo) executar;
+  final void Function(String nome, String primeiroTipo, String? segundoTipo) executar;
 
   const ListForm({
     Key? key,
@@ -41,7 +42,7 @@ class _ListFormState extends State<ListForm> {
     widget.executar(
       _formData["nome"].toString(),
       _formData["primeiroTipo"].toString(),
-      _formData["segundoTipo"].toString(),
+      _formData["segundoTipo"],
     );
     Navigator.of(context).pop();
   }
@@ -87,14 +88,9 @@ class _ListFormState extends State<ListForm> {
                 labelText: widget.labelSegundoTipo,
                 hintText: widget.labelSegundoTipo
               ),
-              validator:(value) {
-                if(value == null || value.isEmpty) {
-                  return "Tipo não pode ser vazio";
-                }
-                return null;
-              },
               onSaved: (newValue) =>  newValue!.isEmpty ? _formData["segundoTipo"] = null : _formData["segundoTipo"] = newValue
             ),
+            DropdownTipo()
           ],
         ),
       ),
