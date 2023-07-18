@@ -5,6 +5,7 @@ import '../models/tipo.dart';
 class ListaTipo {
 
   List<Tipo> valores = [
+    Tipo(nome: "Nenhum", cor: const Color(0xffffffff)),
     Tipo(nome: "Grama", cor: const Color(0xff78C850) ),
     Tipo(nome: "Venenoso", cor: const Color(0xffA040A0) ),
     Tipo(nome: "Fogo", cor: const Color(0xffF08030) ),

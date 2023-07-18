@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/components/dropdown_tipo.dart';
+import 'package:list_crud_pokemon/models/tipo.dart';
 
 class ListForm extends StatefulWidget {
 
@@ -23,7 +24,7 @@ class ListForm extends StatefulWidget {
     required this.hintPrimeiroTipo,
     required this.labelSegundoTipo, 
     required this.hintSegundoTipo, 
-    required this.executar, 
+    required this.executar,  
   }) : super(key: key);
 
   @override
@@ -34,6 +35,8 @@ class _ListFormState extends State<ListForm> {
   final _formKey = GlobalKey<FormState>();
 
   final Map<String, String?> _formData = {};
+  late Tipo primeiroTipo;
+  Tipo? segundoTipo;
 
   void _submit() {
     if(!_formKey.currentState!.validate()) return; 
@@ -41,8 +44,8 @@ class _ListFormState extends State<ListForm> {
 
     widget.executar(
       _formData["nome"].toString(),
-      _formData["primeiroTipo"].toString(),
-      _formData["segundoTipo"],
+      primeiroTipo.nome.toString(),
+      segundoTipo?.nome
     );
     Navigator.of(context).pop();
   }
@@ -70,27 +73,34 @@ class _ListFormState extends State<ListForm> {
               },
               onSaved: (newValue) => _formData["nome"] = newValue!
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: widget.labelPrimeiroTipo,
-                hintText: widget.labelPrimeiroTipo
-              ),
-              validator:(value) {
-                if(value == null || value.isEmpty) {
-                  return "Tipo não pode ser vazio";
-                }
-                return null;
-              },
-              onSaved: (newValue) => _formData["primeiroTipo"] = newValue!
+            // TextFormField(
+            //   decoration: InputDecoration(
+            //     labelText: widget.labelPrimeiroTipo,
+            //     hintText: widget.labelPrimeiroTipo
+            //   ),
+            //   validator:(value) {
+            //     if(value == null || value.isEmpty) {
+            //       return "Tipo não pode ser vazio";
+            //     }
+            //     return null;
+            //   },
+            //   onSaved: (newValue) => _formData["primeiroTipo"] = newValue!
+            // ),
+            // TextFormField(
+            //   decoration: InputDecoration(
+            //     labelText: widget.labelSegundoTipo,
+            //     hintText: widget.labelSegundoTipo
+            //   ),
+            //   onSaved: (newValue) =>  newValue!.isEmpty ? _formData["segundoTipo"] = null : _formData["segundoTipo"] = newValue
+            // ),
+            DropdownTipo(
+              labelDropdown: "tipo 1", 
+              definirTipo: (tipo) =>  primeiroTipo = tipo,
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: widget.labelSegundoTipo,
-                hintText: widget.labelSegundoTipo
-              ),
-              onSaved: (newValue) =>  newValue!.isEmpty ? _formData["segundoTipo"] = null : _formData["segundoTipo"] = newValue
-            ),
-            DropdownTipo()
+            DropdownTipo(
+              labelDropdown: "Tipo 2",
+              definirTipo: (tipo) => segundoTipo = tipo,
+            )
           ],
         ),
       ),
