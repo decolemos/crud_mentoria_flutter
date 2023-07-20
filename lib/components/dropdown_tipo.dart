@@ -56,7 +56,7 @@ class _DropdownTipoState extends State<DropdownTipo> {
       child: DropdownButton2(
         isExpanded: true,
         items: listaDropdown,
-        value: listaTipo,
+        value: tipoSelecionado,
         menuItemStyleData: MenuItemStyleData(
           selectedMenuItemBuilder: (context, child) {
             return DropdownMenuItem(

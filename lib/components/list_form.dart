@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/components/dropdown_tipo.dart';
 import 'package:list_crud_pokemon/models/tipo.dart';
 
+import 'dropdown_tipo copy.dart';
+
 class ListForm extends StatefulWidget {
 
   final int? id;
@@ -93,14 +95,14 @@ class _ListFormState extends State<ListForm> {
             //   ),
             //   onSaved: (newValue) =>  newValue!.isEmpty ? _formData["segundoTipo"] = null : _formData["segundoTipo"] = newValue
             // ),
-            DropdownTipo(
-              labelDropdown: "tipo 1", 
-              definirTipo: (tipo) =>  primeiroTipo = tipo,
+            const DropdownOk(
+              // labelDropdown: "tipo 1", 
+              // definirTipo: (tipo) =>  primeiroTipo = tipo,
             ),
-            DropdownTipo(
-              labelDropdown: "Tipo 2",
-              definirTipo: (tipo) => segundoTipo = tipo,
-            )
+            // DropdownOk(
+            //   // labelDropdown: "Tipo 2",
+            //   // definirTipo: (tipo) => segundoTipo = tipo,
+            // )
           ],
         ),
       ),
