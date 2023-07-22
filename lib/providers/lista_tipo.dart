@@ -12,7 +12,7 @@ class ListaTipo {
     Tipo(nome: "Voador", cor: const Color(0xffA890F0) ),
     Tipo(nome: "Água", cor: const Color(0xff6890F0) ),
     Tipo(nome: "Inseto", cor: const Color(0xffA8A878) ),
-    Tipo(nome: "Normal", cor: const Color(0xffA8A878) ),
+    Tipo(nome: "Normal", cor: const Color(0xFFA8A898) ),
     Tipo(nome: "Elétrico", cor: const Color(0xffF8D030) ),
     Tipo(nome: "Terrestre", cor: const Color(0xffE0C068) ),
     Tipo(nome: "Fada", cor: const Color(0xffEE99AC) ),

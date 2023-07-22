@@ -1,80 +1,143 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
-import 'package:list_crud_pokemon/models/tipo.dart';
 import 'package:list_crud_pokemon/providers/lista_tipo.dart';
 
-class DropdownTipo extends StatefulWidget {
-  final String labelDropdown;
-  final void Function(Tipo tipo) definirTipo;
-  
+import '../models/tipo.dart';
 
-  const DropdownTipo({
+class DropdownOk extends StatefulWidget {
+
+  final void Function(Tipo tipoSelecionado) alterarTipo;
+
+  const DropdownOk({
     Key? key,
-    required this.labelDropdown,
-    required this.definirTipo,
+    required this.alterarTipo,
   }) : super(key: key);
 
   @override
-  State<DropdownTipo> createState() => _DropdownTipoState();
+  State<DropdownOk> createState() => _DropdownOkState();
 }
 
-class _DropdownTipoState extends State<DropdownTipo> {
-
-  final ListaTipo listaTipo = ListaTipo();
-  final List<DropdownMenuItem<Tipo>> listaDropdown = [];
-  late Tipo? tipoSelecionado;
+class _DropdownOkState extends State<DropdownOk> {
+  final listaTipo = ListaTipo();
   
+  late String selectedValue;
+
+  late List<Tipo> listaValores = listaTipo.valores;
+
+  Color corAtual = Colors.white;
+
+  List<DropdownMenuItem<String>> listaDeTipos = [];
+
+
   @override
-  void initState() {
+  initState() {
     super.initState();
     gerarDropdown();
-    tipoSelecionado = listaTipo.valores[0];
   }
-
+   
   void gerarDropdown() {
-    for(int index = 0; listaTipo.valores.length > index; index++){
-      listaDropdown.add(DropdownMenuItem(
-        value: listaTipo.valores[index],
-        child: Text(listaTipo.valores[index].nome), 
+    for(int index = 0; index < listaValores.length; index++){
+      listaDeTipos.add(DropdownMenuItem(
+        value: listaValores[index].nome,
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: listaValores[index].cor,
+          child: Text(listaValores[index].nome),
+          )
         ),
       );
     }
+    selectedValue = listaValores[0].nome;
   }
 
-  void alternarTipo(Tipo? tipo) {
-    print(tipo!.nome);
+  void capturarCor(String nome) {
+    int index = listaValores.indexWhere((tipo) => tipo.nome == nome);
+    widget.alterarTipo(listaValores[index]);
     setState(() {
-      tipoSelecionado = tipo;
+      corAtual = listaValores[index].cor;
     });
-    widget.definirTipo(tipo);
   }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton2(
-        isExpanded: true,
-        items: listaDropdown,
-        value: tipoSelecionado,
-        menuItemStyleData: MenuItemStyleData(
-          selectedMenuItemBuilder: (context, child) {
-            return DropdownMenuItem(
-              value: tipoSelecionado,
-              child: Text("teste"),
-            );
-          },
+    return Center(
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton2<String>(
+            isExpanded: true,
+            hint: const Row(
+              children: [
+                // Icon(
+                //   Icons.list,
+                //   size: 16,
+                //   color: Colors.yellow,
+                // ),
+                // SizedBox(
+                //   width: 4,
+                // ),
+                // Expanded(
+                //   child: Text(
+                //     'Select Item',
+                //     style: TextStyle(
+                //       fontSize: 14,
+                //       fontWeight: FontWeight.bold,
+                //       color: Colors.yellow,
+                //     ),
+                //     overflow: TextOverflow.ellipsis,
+                //   ),
+                // ),
+              ],
+            ),
+            items: listaDeTipos,
+            value: selectedValue,
+            onChanged: (String? value) {
+              setState(() {
+                capturarCor(value!);
+                selectedValue = value;
+              });
+            },
+            buttonStyleData: ButtonStyleData(
+              height: 50,
+              width: 160,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                border: Border.all(
+                  color: Colors.black26,
+                ),
+                color: corAtual,
+              ),
+              // elevation: 2,
+            ),
+            // iconStyleData: const IconStyleData(
+            //   icon: Icon(
+            //     Icons.arrow_forward_ios_outlined,
+            //   ),
+            //   iconSize: 14,
+            //   iconEnabledColor: Colors.yellow,
+            //   iconDisabledColor: Colors.grey,
+            // ),
+            dropdownStyleData: DropdownStyleData(
+              padding: const EdgeInsets.all(0),
+              maxHeight: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                color: Colors.black,
+              ),
+              offset: const Offset(-20, 0),
+              scrollbarTheme: ScrollbarThemeData(
+                // radius: const Radius.circular(40),
+                thickness: MaterialStateProperty.all<double>(6),
+                thumbVisibility: MaterialStateProperty.all<bool>(true),
+              ),
+            ),
+            menuItemStyleData: const MenuItemStyleData(
+              height: 40,
+              padding: EdgeInsets.only(left: 0, right: 0),
+            ),
+          ),
         ),
-      ),
-    );
-    // return SizedBox(
-    //   child: DropdownMenu<Tipo>(
-    //     menuHeight: 200,
-    //     initialSelection: tipoSelecionado,
-    //     dropdownMenuEntries: listaDropdown,
-    //     onSelected: alternarTipo,
-    //     label: Text(widget.labelDropdown),
-    //   ),
-    // );
+      );
   }
 }

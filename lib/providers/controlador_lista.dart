@@ -40,7 +40,7 @@ class ControladorLista extends ChangeNotifier {
   }
 
   Future<void> adicionarPokemon(String nome, String primeiroTipo, String? segundoTipo) async {
-    print(segundoTipo == null);
+    // print(segundoTipo == null);
 
     bool pokemonExiste = verificarSeNomeExiste(nome);
 

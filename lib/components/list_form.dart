@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:flutter/material.dart';
-import 'package:list_crud_pokemon/components/dropdown_tipo.dart';
 import 'package:list_crud_pokemon/models/tipo.dart';
 
-import 'dropdown_tipo copy.dart';
+import '../providers/lista_tipo.dart';
+import 'dropdown_tipo.dart';
 
 class ListForm extends StatefulWidget {
 
@@ -10,11 +12,10 @@ class ListForm extends StatefulWidget {
   final String title;
   final String labelNome;
   final String hintNome;
-  final String labelPrimeiroTipo;
-  final String hintPrimeiroTipo;
-  final String labelSegundoTipo;
-  final String hintSegundoTipo;
   final void Function(String nome, String primeiroTipo, String? segundoTipo) executar;
+  final void Function(Tipo tipoSelecionado) alterarTipo;
+  // final void Function(Color corSelecionada) alterarCor;
+
 
   const ListForm({
     Key? key,
@@ -22,16 +23,18 @@ class ListForm extends StatefulWidget {
     required this.title,
     required this.labelNome,
     required this.hintNome,
-    required this.labelPrimeiroTipo,
-    required this.hintPrimeiroTipo,
-    required this.labelSegundoTipo, 
-    required this.hintSegundoTipo, 
-    required this.executar,  
+    required this.executar,
+    required this.alterarTipo, 
+    // required this.alterarCor, 
   }) : super(key: key);
 
   @override
   State<ListForm> createState() => _ListFormState();
 }
+
+final listaTipo = ListaTipo();
+
+List<Tipo> listaValores = listaTipo.valores;
 
 class _ListFormState extends State<ListForm> {
   final _formKey = GlobalKey<FormState>();
@@ -39,6 +42,16 @@ class _ListFormState extends State<ListForm> {
   final Map<String, String?> _formData = {};
   late Tipo primeiroTipo;
   Tipo? segundoTipo;
+  late Color corSelecionada;
+
+  void capturarCor(String nome) {
+    int index = listaValores.indexWhere((tipo) => tipo.nome == nome);
+    widget.alterarTipo(listaValores[index]);
+    print(nome);
+    corSelecionada = listaValores[index].cor;
+    print(corSelecionada);
+  } 
+
 
   void _submit() {
     if(!_formKey.currentState!.validate()) return; 
@@ -49,9 +62,10 @@ class _ListFormState extends State<ListForm> {
       primeiroTipo.nome.toString(),
       segundoTipo?.nome
     );
+
+    capturarCor(primeiroTipo.nome);
     Navigator.of(context).pop();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -75,34 +89,7 @@ class _ListFormState extends State<ListForm> {
               },
               onSaved: (newValue) => _formData["nome"] = newValue!
             ),
-            // TextFormField(
-            //   decoration: InputDecoration(
-            //     labelText: widget.labelPrimeiroTipo,
-            //     hintText: widget.labelPrimeiroTipo
-            //   ),
-            //   validator:(value) {
-            //     if(value == null || value.isEmpty) {
-            //       return "Tipo não pode ser vazio";
-            //     }
-            //     return null;
-            //   },
-            //   onSaved: (newValue) => _formData["primeiroTipo"] = newValue!
-            // ),
-            // TextFormField(
-            //   decoration: InputDecoration(
-            //     labelText: widget.labelSegundoTipo,
-            //     hintText: widget.labelSegundoTipo
-            //   ),
-            //   onSaved: (newValue) =>  newValue!.isEmpty ? _formData["segundoTipo"] = null : _formData["segundoTipo"] = newValue
-            // ),
-            const DropdownOk(
-              // labelDropdown: "tipo 1", 
-              // definirTipo: (tipo) =>  primeiroTipo = tipo,
-            ),
-            // DropdownOk(
-            //   // labelDropdown: "Tipo 2",
-            //   // definirTipo: (tipo) => segundoTipo = tipo,
-            // )
+            DropdownOk(alterarTipo: (tipoSelecionado) => primeiroTipo = tipoSelecionado),
           ],
         ),
       ),

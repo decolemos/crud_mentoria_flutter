@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/list_form.dart';
 import '../components/pokemon_list_tile.dart';
+import '../models/tipo.dart';
 import '../providers/controlador_lista.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,9 +22,13 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> buscarPokemon() async {
     await Future.delayed(const Duration(seconds: 3));
+    // ignore: use_build_context_synchronously
     await Provider.of<ControladorLista>(context, listen: false).buscarPokemonViaApi();
   }
 
+  late Tipo primeiroTipo;
+  late Color corAtual;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +46,11 @@ class _HomePageState extends State<HomePage> {
                   title: "Adicionar pokemon",
                   labelNome: "Nome do pokemon",
                   hintNome: "Informe o nome do pokemon",
-                  labelPrimeiroTipo: "1º Tipo do pokemon",
-                  hintPrimeiroTipo: "Informe o primeiro tipo do pokemon",
-                  labelSegundoTipo: "2º Tipo do pokemon",
-                  hintSegundoTipo: "Informe o segundo tipo do pokemon",
                   executar: (nome, primeiroTipo, segundoTipo) {
                     provider.adicionarPokemon(nome, primeiroTipo, segundoTipo);
                   },
+                  alterarTipo: (tipoSelecionado) => primeiroTipo = tipoSelecionado,
+                  // alterarCor: (corSelecionada) => corAtual = corSelecionada,
                 ),
               );
             }, 
@@ -74,13 +77,11 @@ class _HomePageState extends State<HomePage> {
                   title: "Editar pokemon", 
                   labelNome: "Novo nome", 
                   hintNome: "Inform um novo nome", 
-                  labelPrimeiroTipo: "Novo primeiro tipo", 
-                  hintPrimeiroTipo: "Informe o novo primeiro tipo",
-                  labelSegundoTipo: "Novo segundo tipo",
-                  hintSegundoTipo: "Informe o novo segundo tipo",
                   executar: (nome, primeiroTipo, segundoTipo) {
                     provider.editarPokemon(provider.pokemons[index].id, nome, primeiroTipo, segundoTipo);
-                  }
+                  },
+                  alterarTipo: (tipoSelecionado) => primeiroTipo = tipoSelecionado,
+                  // alterarCor: (corSelecionada) => corAtual = corSelecionada,
                 );
               }
             ),
