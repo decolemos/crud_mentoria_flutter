@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:list_crud_pokemon/components/img_pokemon.dart';
+import 'package:list_crud_pokemon/components/subtitle_tipo.dart';
 import '../models/pokemon.dart';
 
 
@@ -20,30 +22,27 @@ class PokemonListTile extends StatefulWidget {
 }
 
 
-
 class _PokemonListTileState extends State<PokemonListTile> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        // color: Colors.red,
-      child: Container(
-        child: ListTile(
-          title: Text(widget.pokemon.nome),
-          subtitle: Text (widget.pokemon.segundoTipo == null ? widget.pokemon.primeiroTipo : "${widget.pokemon.primeiroTipo} / ${widget.pokemon.segundoTipo}"),
-          trailing: SizedBox(
-            width: MediaQuery.of(context).size.width / 100 * 20,
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: widget.editarPokemon,
-                  icon: const Icon(Icons.edit, color: Colors.orange,)
-                ),
-                IconButton(
-                  onPressed: () => widget.removerPokemon(widget.pokemon.id),
-                  icon: const Icon(Icons.delete, color: Colors.red,)
-                ),
-              ],
-            ),
+      child: ListTile(
+        leading: const ImgPokemon(),
+        title: Text(widget.pokemon.nome),
+        subtitle: SubtitleTipo(tipoPokemon: widget.pokemon.primeiroTipo),
+        trailing: SizedBox(
+          width: MediaQuery.of(context).size.width / 100 * 20,
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: widget.editarPokemon,
+                icon: const Icon(Icons.edit, color: Colors.orange,)
+              ),
+              IconButton(
+                onPressed: () => widget.removerPokemon(widget.pokemon.id),
+                icon: const Icon(Icons.delete, color: Colors.red,)
+              ),
+            ],
           ),
         ),
       ),
