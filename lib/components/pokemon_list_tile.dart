@@ -23,11 +23,11 @@ class PokemonListTile extends StatefulWidget {
   State<PokemonListTile> createState() => _PokemonListTileState();
 }
 
-
 class _PokemonListTileState extends State<PokemonListTile> {
   @override
   Widget build(BuildContext context) {
-        final provider = Provider.of<ControladorLista>(context);
+    
+    final provider = Provider.of<ControladorLista>(context);
 
     return Card(
       child: ListTile(
@@ -67,9 +67,9 @@ class _PokemonListTileState extends State<PokemonListTile> {
           },
           onSelected: (value) {
             if(value == 0){
-              print("editou");
+              widget.editarPokemon();
             } else if (value == 1) {
-              print("removeu");
+              widget.removerPokemon(widget.pokemon.id);
             }
           },
         ),
