@@ -13,9 +13,6 @@ class ListForm extends StatefulWidget {
   final String labelNome;
   final String hintNome;
   final void Function(String nome, String primeiroTipo, String? segundoTipo) executar;
-  final void Function(Tipo tipoSelecionado) alterarTipo;
-  // final void Function(Color corSelecionada) alterarCor;
-
 
   const ListForm({
     Key? key,
@@ -24,8 +21,6 @@ class ListForm extends StatefulWidget {
     required this.labelNome,
     required this.hintNome,
     required this.executar,
-    required this.alterarTipo, 
-    // required this.alterarCor, 
   }) : super(key: key);
 
   @override
@@ -44,15 +39,6 @@ class _ListFormState extends State<ListForm> {
   Tipo? segundoTipo;
   late Color corSelecionada;
 
-  void capturarCor(String nome) {
-    int index = listaValores.indexWhere((tipo) => tipo.nome == nome);
-    widget.alterarTipo(listaValores[index]);
-    print(nome);
-    corSelecionada = listaValores[index].cor;
-    print(corSelecionada);
-  } 
-
-
   void _submit() {
     if(!_formKey.currentState!.validate()) return; 
     _formKey.currentState!.save();
@@ -62,8 +48,6 @@ class _ListFormState extends State<ListForm> {
       primeiroTipo.nome.toString(),
       segundoTipo?.nome
     );
-
-    capturarCor(primeiroTipo.nome);
     Navigator.of(context).pop();
   }
 
@@ -90,6 +74,7 @@ class _ListFormState extends State<ListForm> {
               onSaved: (newValue) => _formData["nome"] = newValue!
             ),
             DropdownOk(alterarTipo: (tipoSelecionado) => primeiroTipo = tipoSelecionado),
+            DropdownOk(alterarTipo: (tipoSelecionado) => segundoTipo = tipoSelecionado)
           ],
         ),
       ),

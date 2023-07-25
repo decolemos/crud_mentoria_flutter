@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/list_form.dart';
 import '../components/pokemon_list_tile.dart';
-import '../models/tipo.dart';
 import '../providers/controlador_lista.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,9 +25,6 @@ class _HomePageState extends State<HomePage> {
     await Provider.of<ControladorLista>(context, listen: false).buscarPokemonViaApi();
   }
 
-  late Tipo primeiroTipo;
-  late Color corAtual;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +43,8 @@ class _HomePageState extends State<HomePage> {
                   labelNome: "Nome do pokemon",
                   hintNome: "Informe o nome do pokemon",
                   executar: (nome, primeiroTipo, segundoTipo) {
-                    provider.adicionarPokemon(nome, primeiroTipo, segundoTipo);
+                    provider.adicionarPokemonFirebase(nome, primeiroTipo, segundoTipo);
                   },
-                  alterarTipo: (tipoSelecionado) => primeiroTipo = tipoSelecionado,
-                  // alterarCor: (corSelecionada) => corAtual = corSelecionada,
                 ),
               );
             }, 
@@ -80,8 +74,6 @@ class _HomePageState extends State<HomePage> {
                   executar: (nome, primeiroTipo, segundoTipo) {
                     provider.editarPokemon(provider.pokemons[index].id, nome, primeiroTipo, segundoTipo);
                   },
-                  alterarTipo: (tipoSelecionado) => primeiroTipo = tipoSelecionado,
-                  // alterarCor: (corSelecionada) => corAtual = corSelecionada,
                 );
               }
             ),

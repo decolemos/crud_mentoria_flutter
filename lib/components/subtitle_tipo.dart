@@ -18,10 +18,9 @@ class SubtitleTipo extends StatelessWidget {
 
   late Color corSelecionada;
 
-  Color capturarCor(String nome) {
-    int index = listaTipo.valores.indexWhere((tipo) => tipo.nome == nome);
+  Color capturarCor() {
+    int index = listaTipo.valores.indexWhere((tipo) => tipo.nome == tipoPokemon);
     corSelecionada = listaTipo.valores[index].cor;
-    log(corSelecionada.toString());
     return corSelecionada;
   } 
 
@@ -33,7 +32,7 @@ class SubtitleTipo extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: capturarCor(tipoPokemon),
+          color: capturarCor(),
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 2, bottom: 2, left: 4, right: 4),

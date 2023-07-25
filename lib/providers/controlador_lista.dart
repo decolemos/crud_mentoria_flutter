@@ -7,27 +7,30 @@ import 'package:http/http.dart' as http;
 
 class ControladorLista extends ChangeNotifier {
 
-  List<Pokemon> _pokemons = [];
+  final List<Pokemon> _pokemons = [];
 
   List<Pokemon> get pokemons => _pokemons;
 
   final String url = "https://crudpokemonfirebase-default-rtdb.firebaseio.com";
+  final String urlPokeApi = "https://pokeapi.co/api/v2/pokemon";
 
   Future<void> buscarPokemonViaApi() async {
     try {
       final response = await http.get(Uri.parse("$url/pokemons.json"));
       final jsonResponse = jsonDecode(response.body);
 
-      List<Pokemon> lista = [];
-
       if(jsonResponse == null) return;
 
       for(final key in jsonResponse.keys) {
-        lista.add(Pokemon(id: key, nome: jsonResponse[key]["nome"],primeiroTipo: jsonResponse[key]["primeiroTipo"], segundoTipo: jsonResponse[key]["segundoTipo"]));
+        await adicionarPokemonLista(Pokemon(
+          id: key, 
+          nome: jsonResponse[key]["nome"],
+          primeiroTipo: jsonResponse[key]["primeiroTipo"], 
+          segundoTipo: jsonResponse[key]["segundoTipo"])
+        );
       }
 
-    _pokemons = lista;
-    notifyListeners();
+      notifyListeners();
 
     } catch (e) {
       log(e.toString());
@@ -39,7 +42,7 @@ class ControladorLista extends ChangeNotifier {
     return index != -1;
   }
 
-  Future<void> adicionarPokemon(String nome, String primeiroTipo, String? segundoTipo) async {
+  Future<void> adicionarPokemonFirebase(String nome, String primeiroTipo, String? segundoTipo) async {
     print(segundoTipo == null);
 
     bool pokemonExiste = verificarSeNomeExiste(nome);
@@ -62,12 +65,30 @@ class ControladorLista extends ChangeNotifier {
       log(response.body.toString());
 
       final jsonResponse = jsonDecode(response.body);
-      _pokemons.add(Pokemon(id: jsonResponse["name"], nome: nome, primeiroTipo: primeiroTipo, segundoTipo: segundoTipo));
+      await adicionarPokemonLista(Pokemon(
+        id: jsonResponse["name"], 
+        nome: nome, 
+        primeiroTipo: primeiroTipo, 
+        segundoTipo: segundoTipo)
+      );
       notifyListeners();
     } catch (e) {
       log(e.toString());
     }
   }
+
+  Future<void> adicionarPokemonLista(Pokemon pokemon) async {
+
+    try {
+      final response = await http.get(Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
+      final jsonResponse = jsonDecode(response.body);
+      pokemon.imagePokemon = jsonResponse["sprites"]["front_default"];
+    } catch (e) {
+      log(e.toString());
+    }
+    _pokemons.add(pokemon);
+  }
+  
 
   Future<void> editarPokemon(String id, String novoNome, String novoPrimeiroTipo, String? novoSegundoTipo) async {
     final response = await http.put(

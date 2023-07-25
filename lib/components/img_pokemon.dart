@@ -1,7 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class ImgPokemon extends StatelessWidget {
-  const ImgPokemon({super.key});
+
+  final String? url;
+
+  const ImgPokemon({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,10 +17,11 @@ class ImgPokemon extends StatelessWidget {
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Image.network("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
-      width: 70,
-      height: 300,
-      fit: BoxFit.cover
+      child: Image.network(url ?? "",
+        width: 70,
+        height: 300,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => const Center(child: Text("Not Found")),
       ),      
     );
   }

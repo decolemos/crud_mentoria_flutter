@@ -68,25 +68,6 @@ class _DropdownOkState extends State<DropdownOk> {
             isExpanded: true,
             hint: const Row(
               children: [
-                // Icon(
-                //   Icons.list,
-                //   size: 16,
-                //   color: Colors.yellow,
-                // ),
-                // SizedBox(
-                //   width: 4,
-                // ),
-                // Expanded(
-                //   child: Text(
-                //     'Select Item',
-                //     style: TextStyle(
-                //       fontSize: 14,
-                //       fontWeight: FontWeight.bold,
-                //       color: Colors.yellow,
-                //     ),
-                //     overflow: TextOverflow.ellipsis,
-                //   ),
-                // ),
               ],
             ),
             items: listaDeTipos,
