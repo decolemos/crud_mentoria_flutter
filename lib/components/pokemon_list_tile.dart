@@ -27,8 +27,6 @@ class _PokemonListTileState extends State<PokemonListTile> {
   @override
   Widget build(BuildContext context) {
     
-    final provider = Provider.of<ControladorLista>(context);
-
     return Card(
       child: ListTile(
         leading: SizedBox(

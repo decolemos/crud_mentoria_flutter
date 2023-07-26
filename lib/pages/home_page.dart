@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                 return ListForm(
                   title: "Editar pokemon", 
                   labelNome: "Novo nome", 
-                  hintNome: "Inform um novo nome", 
+                  hintNome: "Informe um novo nome", 
                   executar: (nome, primeiroTipo, segundoTipo) {
                     provider.editarPokemon(provider.pokemons[index].id, nome, primeiroTipo, segundoTipo);
                   },

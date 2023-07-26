@@ -91,20 +91,31 @@ class ControladorLista extends ChangeNotifier {
   
 
   Future<void> editarPokemon(String id, String novoNome, String novoPrimeiroTipo, String? novoSegundoTipo) async {
+
+
+
+
     final response = await http.put(
       Uri.parse("$url/pokemons/$id.json"), 
       body: jsonEncode(
         {
           "nome": novoNome,
-          "tipo": novoPrimeiroTipo
+          "primeiroTipo": novoPrimeiroTipo,
+          "segundoTipo": novoSegundoTipo
         }
       ) 
     );
+    
+    final responseImagem = await http.get(Uri.parse("$urlPokeApi/${novoNome.toLowerCase()}"));
+    final jsonResponse = jsonDecode(responseImagem.body);
+    final String novoImagemPokemon = jsonResponse["sprites"]["front_default"];
 
     jsonDecode(response.body);
     int index = _pokemons.indexWhere((pokemon) => pokemon.id == id);
     _pokemons[index].nome = novoNome;
     _pokemons[index].primeiroTipo = novoPrimeiroTipo;
+    _pokemons[index].segundoTipo = novoSegundoTipo;  
+    _pokemons[index].imagePokemon = novoImagemPokemon;
     notifyListeners();
 
   }
