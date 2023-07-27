@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:list_crud_pokemon/pages/poke_perfil/poke_perfil.dart';
 import 'package:list_crud_pokemon/providers/controlador_lista.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
-          "/":(context) => const HomePage()
+          "/":(context) => const HomePage(),
+          "poke_perfil":(context) => const PokePerfil()
         },
       ),
     );

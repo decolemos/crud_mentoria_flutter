@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/components/img_pokemon.dart';
 import 'package:list_crud_pokemon/components/subtitle_tipo.dart';
-import 'package:provider/provider.dart';
+import 'package:list_crud_pokemon/pages/poke_perfil.dart';
 import '../models/pokemon.dart';
-import '../providers/controlador_lista.dart';
-
 
 class PokemonListTile extends StatefulWidget {
   final Pokemon pokemon;
@@ -29,6 +27,9 @@ class _PokemonListTileState extends State<PokemonListTile> {
     
     return Card(
       child: ListTile(
+        onTap: () {
+          Navigator.pushNamed(context, "poke_perfil");
+        },
         leading: SizedBox(
           width: 70,
           height: 70,
