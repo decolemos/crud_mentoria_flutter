@@ -3,9 +3,19 @@ import 'package:list_crud_pokemon/pages/poke_perfil/components/background_white.
 import 'package:list_crud_pokemon/pages/poke_perfil/components/card_type_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/title_nome_pokemon.dart';
 
-class PokePerfil extends StatelessWidget {
-  const PokePerfil({super.key});
+import '../../models/pokemon.dart';
 
+class PokePerfil extends StatefulWidget {
+
+  final Pokemon pokemon;
+
+  const PokePerfil({super.key, required this.pokemon});
+
+  @override
+  State<PokePerfil> createState() => _PokePerfilState();
+}
+
+class _PokePerfilState extends State<PokePerfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,8 +26,8 @@ class PokePerfil extends StatelessWidget {
       ),
       body: Column(
         children: [
-            const TitleNomePokemon(titlePokemonName: "Pikachu"),
-            const CardTypePokemon(textCardTypePokemon: "Elétrico"),
+            TitleNomePokemon(titlePokemonName: widget.pokemon.nome),
+            CardTypePokemon(textCardTypePokemon: widget.pokemon.primeiroTipo),
           SizedBox(
             height: MediaQuery.of(context).size.width / 100 * 60,
             child: Image.network("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png")
