@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/components/img_pokemon.dart';
 import 'package:list_crud_pokemon/components/subtitle_tipo.dart';
-import 'package:list_crud_pokemon/pages/poke_perfil.dart';
 import '../models/pokemon.dart';
 
 class PokemonListTile extends StatefulWidget {
