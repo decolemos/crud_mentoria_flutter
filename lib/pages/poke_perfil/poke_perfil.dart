@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/background_white.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/card_type_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/title_nome_pokemon.dart';
-
+import 'package:list_crud_pokemon/providers/lista_tipo.dart';
 import '../../models/pokemon.dart';
 
 class PokePerfil extends StatefulWidget {
@@ -15,26 +15,41 @@ class PokePerfil extends StatefulWidget {
   State<PokePerfil> createState() => _PokePerfilState();
 }
 
+final ListaTipo listaTipo = ListaTipo();
+
+Color retornarCorTipo(String nome) {
+  final int index = listaTipo.valores.indexWhere((tipo) => tipo.nome == nome);
+  final Color corSelecionada = listaTipo.valores[index].cor;
+
+  return corSelecionada;
+}
+
 class _PokePerfilState extends State<PokePerfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF8D030),
+      backgroundColor: widget.pokemon.imagePokemon != null ? retornarCorTipo(
+        widget.pokemon.primeiroTipo) : Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: Column(
+      body: widget.pokemon.imagePokemon != null
+      ? Column(
         children: [
             TitleNomePokemon(titlePokemonName: widget.pokemon.nome),
-            CardTypePokemon(textCardTypePokemon: widget.pokemon.primeiroTipo),
+            CardTypePokemon(
+              primeiroTipo: widget.pokemon.primeiroTipo, 
+              segundoTipo: widget.pokemon.segundoTipo,
+            ),
           SizedBox(
             height: MediaQuery.of(context).size.width / 100 * 60,
-            child: Image.network("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png")
+            child: Image.network(widget.pokemon.imagePokemon ?? "")
           ),
           const BackgroundWhite(titleFirstInfo: "Sobre", titleSecondtInfo: "Reprodução")
         ],
-      ),
+      )
+      : const Text("Esse pokemon não existe")
     );
   }
 }
