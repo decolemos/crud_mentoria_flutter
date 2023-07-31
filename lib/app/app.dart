@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       create: (context) => ControladorLista(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        // home: GridviewPokemon(),
         routes: {
           "/":(context) => const HomePage(),
         },

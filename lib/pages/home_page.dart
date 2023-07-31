@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../components/gridview_pokemon.dart';
 import '../components/list_form.dart';
-import '../components/pokemon_list_tile.dart';
 import '../providers/controlador_lista.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +13,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -23,6 +25,10 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(seconds: 3));
     // ignore: use_build_context_synchronously
     await Provider.of<ControladorLista>(context, listen: false).buscarPokemonViaApi();
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
 
@@ -52,35 +58,48 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: provider.pokemons.isEmpty
+      body: isLoading == true
+      ? const Center(
+        child: CircularProgressIndicator(),
+      )
+      : provider.pokemons.isEmpty
       ? const Center(
         child: Text("Nenhum pokemon adicionado"),
       )
-      : ListView.builder(
-        itemCount: provider.pokemons.length,
+      : GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemCount: provider.pokemons.length, 
         itemBuilder: (context, index) {
-          return PokemonListTile(
+          return GridviewPokemon(
             pokemon: provider.pokemons[index],
-            removerPokemon: (id) {
-              provider.removerPokemon(id);
-            },
-            editarPokemon: () => showDialog(
-              context: context, 
-              builder: (context) {
-                return ListForm(
-                  title: "Editar pokemon", 
-                  labelNome: "Novo nome", 
-                  hintNome: "Informe um novo nome", 
-                  executar: (nome, primeiroTipo, segundoTipo) {
-                    provider.editarPokemon(provider.pokemons[index].id, nome, primeiroTipo, segundoTipo);
-                  },
-                );
-              }
-            ),
-
           );
         },
       ),
     );
   }
 }
+
+      // ListView.builder(
+      //   itemCount: provider.pokemons.length,
+      //   itemBuilder: (context, index) {
+      //     return 
+      //     // PokemonListTile(
+      //     //   pokemon: provider.pokemons[index],
+      //     //   removerPokemon: (id) {
+      //     //     provider.removerPokemon(id);
+      //     //   },
+      //     //   editarPokemon: () => showDialog(
+      //     //     context: context, 
+      //     //     builder: (context) {
+      //     //       return ListForm(
+      //     //         title: "Editar pokemon", 
+      //     //         labelNome: "Novo nome", 
+      //     //         hintNome: "Informe um novo nome", 
+      //     //         executar: (nome, primeiroTipo, segundoTipo) {
+      //     //           provider.editarPokemon(provider.pokemons[index].id, nome, primeiroTipo, segundoTipo);
+      //     //         },
+      //     //       );
+      //     //     }
+      //     //   ),
+      //     // );
+      //   },
