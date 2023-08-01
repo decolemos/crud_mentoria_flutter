@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../components/gridview_pokemon.dart';
+import '../components/card_pokemon.dart';
 import '../components/list_form.dart';
 import '../providers/controlador_lista.dart';
 
@@ -66,14 +66,22 @@ class _HomePageState extends State<HomePage> {
       ? const Center(
         child: Text("Nenhum pokemon adicionado"),
       )
-      : GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemCount: provider.pokemons.length, 
-        itemBuilder: (context, index) {
-          return GridviewPokemon(
-            pokemon: provider.pokemons[index],
-          );
-        },
+      : Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 15,
+            childAspectRatio: 1.3
+          ),
+          itemCount: provider.pokemons.length, 
+          itemBuilder: (context, index) {
+            return GridviewPokemon(
+              pokemon: provider.pokemons[index],
+            );
+          },
+        ),
       ),
     );
   }

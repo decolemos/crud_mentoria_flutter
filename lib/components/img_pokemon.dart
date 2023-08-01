@@ -13,13 +13,9 @@ class ImgPokemon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
-      ),
+
       child: Image.network(url ?? "",
         width: 70,
-        height: 300,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) => const Center(child: Text("Not Found")),
       ),      

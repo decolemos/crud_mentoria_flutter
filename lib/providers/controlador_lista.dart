@@ -82,7 +82,7 @@ class ControladorLista extends ChangeNotifier {
     try {
       final response = await http.get(Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
       final jsonResponse = jsonDecode(response.body);
-      pokemon.imagePokemon = jsonResponse["sprites"]["front_default"];
+      pokemon.imagePokemon = jsonResponse["sprites"]["other"]["official-artwork"]["front_default"];
     } catch (e) {
       log(e.toString());
     }

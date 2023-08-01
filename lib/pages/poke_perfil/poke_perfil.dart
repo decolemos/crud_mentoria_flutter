@@ -36,15 +36,21 @@ class _PokePerfilState extends State<PokePerfil> {
       ),
       body: widget.pokemon.imagePokemon != null
       ? Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
             TitleNomePokemon(titlePokemonName: widget.pokemon.nome),
-            CardTypePokemon(
-              primeiroTipo: widget.pokemon.primeiroTipo, 
-              segundoTipo: widget.pokemon.segundoTipo,
+            Container(
+              margin: const EdgeInsets.only(left: 10),
+              child: CardTypePokemon(
+                primeiroTipo: widget.pokemon.primeiroTipo, 
+                segundoTipo: widget.pokemon.segundoTipo,
+              ),
             ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 100 * 60,
-            child: Image.network(widget.pokemon.imagePokemon ?? "")
+          Center(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.width / 100 * 60,
+              child: Image.network(widget.pokemon.imagePokemon ?? "")
+            ),
           ),
           const BackgroundWhite(titleFirstInfo: "Sobre", titleSecondtInfo: "Reprodução")
         ],
