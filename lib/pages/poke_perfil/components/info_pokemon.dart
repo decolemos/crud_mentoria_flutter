@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 class InfoPokemon extends StatelessWidget {
 
-  final String titleInfoPokemon;
-  final String infoPokemon;
+  final String label;
+  final String value;
 
 
-  const InfoPokemon({super.key, required this.titleInfoPokemon, required this.infoPokemon});
+  const InfoPokemon({super.key, required this.value, required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(titleInfoPokemon),
-        Text(infoPokemon),
+        Text(label),
+        Text(value),
       ],
     );
   }

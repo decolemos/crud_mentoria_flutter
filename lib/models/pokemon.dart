@@ -5,11 +5,15 @@ class Pokemon {
   String primeiroTipo;
   String? segundoTipo;
   String? imagePokemon;
+  int? heigth;
+  int? weight;
   Pokemon({
     required this.id,
     required this.nome,
     required this.primeiroTipo,
     this.segundoTipo,
     this.imagePokemon,
+    this.heigth,
+    this.weight,
   });
 }

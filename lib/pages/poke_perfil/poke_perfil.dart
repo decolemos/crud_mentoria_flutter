@@ -35,8 +35,7 @@ class _PokePerfilState extends State<PokePerfil> {
         elevation: 0.0,
       ),
       body: widget.pokemon.imagePokemon != null
-      ? Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      ? ListView(
         children: [
             TitleNomePokemon(titlePokemonName: widget.pokemon.nome),
             Container(
@@ -48,11 +47,15 @@ class _PokePerfilState extends State<PokePerfil> {
             ),
           Center(
             child: SizedBox(
-              height: MediaQuery.of(context).size.width / 100 * 60,
+              height: 200,
               child: Image.network(widget.pokemon.imagePokemon ?? "")
             ),
           ),
-          const BackgroundWhite(titleFirstInfo: "Sobre", titleSecondtInfo: "Reprodução")
+          BackgroundWhite(
+            titleFirstInfo: "Sobre", 
+            titleSecondtInfo: "Reprodução", 
+            pokemon: widget.pokemon,
+          )
         ],
       )
       : const Text("Esse pokemon não existe")

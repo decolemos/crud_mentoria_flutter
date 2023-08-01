@@ -80,9 +80,14 @@ class ControladorLista extends ChangeNotifier {
   Future<void> adicionarPokemonLista(Pokemon pokemon) async {
 
     try {
-      final response = await http.get(Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
+      final response = await http.get(
+        Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
       final jsonResponse = jsonDecode(response.body);
-      pokemon.imagePokemon = jsonResponse["sprites"]["other"]["official-artwork"]["front_default"];
+      pokemon.heigth = jsonResponse["height"];
+      pokemon.weight = jsonResponse["weight"];
+      pokemon.imagePokemon = 
+        jsonResponse["sprites"]["other"]["official-artwork"]["front_default"];
+
     } catch (e) {
       log(e.toString());
     }
@@ -90,7 +95,12 @@ class ControladorLista extends ChangeNotifier {
   }
   
 
-  Future<void> editarPokemon(String id, String novoNome, String novoPrimeiroTipo, String? novoSegundoTipo) async {
+  Future<void> editarPokemon(
+    String id, 
+    String novoNome, 
+    String novoPrimeiroTipo, 
+    String? novoSegundoTipo
+    ) async {
 
 
 
