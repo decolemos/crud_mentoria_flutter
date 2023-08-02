@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
 import '../models/pokemon.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,7 +27,9 @@ class ControladorLista extends ChangeNotifier {
           id: key, 
           nome: jsonResponse[key]["nome"],
           primeiroTipo: jsonResponse[key]["primeiroTipo"], 
-          segundoTipo: jsonResponse[key]["segundoTipo"])
+          segundoTipo: jsonResponse[key]["segundoTipo"],
+          abilities: []
+          )
         );
       }
 
@@ -69,7 +72,9 @@ class ControladorLista extends ChangeNotifier {
         id: jsonResponse["name"], 
         nome: nome, 
         primeiroTipo: primeiroTipo, 
-        segundoTipo: segundoTipo)
+        segundoTipo: segundoTipo,
+        abilities: []
+        )
       );
       notifyListeners();
     } catch (e) {
@@ -85,15 +90,12 @@ class ControladorLista extends ChangeNotifier {
       final jsonResponse = jsonDecode(response.body);
 
       for(int index = 0; index < jsonResponse["abilities"].length; index++){
-        String abilityName = (jsonResponse["abilities"][index]["ability"]["name"]);
-        bool isHidden = (jsonResponse["abilities"][index]["is_hidden"]);
-
-        if(isHidden) {
-          pokemon.hiddenAbilities = abilityName;
-        } else {
-          pokemon.abilities = abilityName;
-        }
-
+      pokemon.abilities.add(
+        AbilitiePokemon(
+          ability: (jsonResponse["abilities"][index]["ability"]["name"]), 
+          isHidden: (jsonResponse["abilities"][index]["is_hidden"]),
+          )
+        );
       }
       pokemon.heigth = jsonResponse["height"];
       pokemon.weight = jsonResponse["weight"];

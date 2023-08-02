@@ -8,6 +8,7 @@ import '../providers/lista_tipo.dart';
 class GridviewPokemon extends StatelessWidget {
 
   final Pokemon pokemon;
+
   final ListaTipo listaTipo = ListaTipo();
 
   GridviewPokemon({super.key, required this.pokemon});

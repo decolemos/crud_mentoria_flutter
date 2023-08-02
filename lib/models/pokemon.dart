@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
+
 class Pokemon {
   String id;
   String nome;
@@ -7,8 +9,7 @@ class Pokemon {
   String? imagePokemon;
   int? heigth;
   int? weight;
-  String? abilities;
-  String? hiddenAbilities;
+  List<AbilitiePokemon> abilities;
   
   Pokemon({
     required this.id,
@@ -18,7 +19,6 @@ class Pokemon {
     this.imagePokemon,
     this.heigth,
     this.weight,
-    this.abilities,
-    this.hiddenAbilities
+    required this.abilities,
   });
 }

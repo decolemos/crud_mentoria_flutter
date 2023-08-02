@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/info_pokemon.dart';
 
 import '../../../models/pokemon.dart';
@@ -12,7 +13,8 @@ class AdditionalInfo extends StatelessWidget {
   const AdditionalInfo({super.key, 
     required this.titleFirstInfo, 
     required this.titleSecondtInfo, 
-    required this.pokemon});
+    required this.pokemon, 
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +84,29 @@ class AdditionalInfo extends StatelessWidget {
                                   label: "Peso: ",
                                   value: "${(pokemon.weight)} kg", 
                                 ),
-                                InfoPokemon(
-                                  label: "Habilidades: ",
-                                  value: "${pokemon.abilities!.capitalize()} / ${pokemon.hiddenAbilities!.capitalize()}", 
+                                const Text(
+                                  "Habilidades:",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                                for (AbilitiePokemon name in pokemon.abilities)
+                                  InfoPokemon(
+                                    label: "-",
+                                    value: name.ability,
+                                  ),
+                                // pokemon.abilities.length < 2 
+                                // ? InfoPokemon(
+                                //   label: "Habilidades: ",
+                                //   value: pokemon.abilities[0].ability
+                                // )
+                                // : InfoPokemon(
+                                //   label: "Habilidades: ",
+                                //   value: "${pokemon.abilities[0].ability} / ${pokemon.abilities[1].ability}", 
+                                // ),
                               ],
                             ),
-                          Center(
+                          const Center(
                             child: Text("Sobre"),
                           ),
                           Center(
