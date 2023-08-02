@@ -83,6 +83,18 @@ class ControladorLista extends ChangeNotifier {
       final response = await http.get(
         Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
       final jsonResponse = jsonDecode(response.body);
+
+      for(int index = 0; index < jsonResponse["abilities"].length; index++){
+        String abilityName = (jsonResponse["abilities"][index]["ability"]["name"]);
+        bool isHidden = (jsonResponse["abilities"][index]["is_hidden"]);
+
+        if(isHidden) {
+          pokemon.hiddenAbilities = abilityName;
+        } else {
+          pokemon.abilities = abilityName;
+        }
+
+      }
       pokemon.heigth = jsonResponse["height"];
       pokemon.weight = jsonResponse["weight"];
       pokemon.imagePokemon = 

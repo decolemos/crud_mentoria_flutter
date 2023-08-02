@@ -7,6 +7,9 @@ class Pokemon {
   String? imagePokemon;
   int? heigth;
   int? weight;
+  String? abilities;
+  String? hiddenAbilities;
+  
   Pokemon({
     required this.id,
     required this.nome,
@@ -15,5 +18,7 @@ class Pokemon {
     this.imagePokemon,
     this.heigth,
     this.weight,
+    this.abilities,
+    this.hiddenAbilities
   });
 }

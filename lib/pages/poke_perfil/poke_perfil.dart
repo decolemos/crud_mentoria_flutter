@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:list_crud_pokemon/pages/poke_perfil/components/background_white.dart';
+import 'package:list_crud_pokemon/pages/poke_perfil/components/additional_info.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/card_type_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/title_nome_pokemon.dart';
 import 'package:list_crud_pokemon/providers/lista_tipo.dart';
@@ -51,7 +51,7 @@ class _PokePerfilState extends State<PokePerfil> {
               child: Image.network(widget.pokemon.imagePokemon ?? "")
             ),
           ),
-          BackgroundWhite(
+          AdditionalInfo(
             titleFirstInfo: "Sobre", 
             titleSecondtInfo: "Reprodução", 
             pokemon: widget.pokemon,
