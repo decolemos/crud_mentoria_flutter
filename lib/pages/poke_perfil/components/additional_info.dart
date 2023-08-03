@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/info_pokemon.dart';
-
+import 'package:list_crud_pokemon/pages/poke_perfil/components/percent_indicator.dart';
 import '../../../models/pokemon.dart';
 
 class AdditionalInfo extends StatelessWidget {
@@ -15,6 +14,18 @@ class AdditionalInfo extends StatelessWidget {
     required this.titleSecondtInfo, 
     required this.pokemon, 
   });
+
+  String get abilities {
+    String value = "";
+    for(int index = 0; index < pokemon.abilities.length; index++){
+      if(index + 1 == pokemon.abilities.length) {
+        value ="$value${pokemon.abilities[index].ability.capitalize()}";
+      } else {
+        value ="$value${pokemon.abilities[index].ability.capitalize()}, ";
+      }
+    }
+    return value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,37 +88,21 @@ class AdditionalInfo extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 InfoPokemon(
-                                  label: "Altura: ", 
+                                  label: "Altura", 
                                   value: "${(pokemon.heigth! / 10).toStringAsFixed(2)} m"
                                 ),
                                 InfoPokemon(
-                                  label: "Peso: ",
+                                  label: "Peso",
                                   value: "${(pokemon.weight)} kg", 
                                 ),
-                                const Text(
-                                  "Habilidades:",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                for (AbilitiePokemon name in pokemon.abilities)
-                                  InfoPokemon(
-                                    label: "-",
-                                    value: name.ability,
-                                  ),
-                                // pokemon.abilities.length < 2 
-                                // ? InfoPokemon(
-                                //   label: "Habilidades: ",
-                                //   value: pokemon.abilities[0].ability
-                                // )
-                                // : InfoPokemon(
-                                //   label: "Habilidades: ",
-                                //   value: "${pokemon.abilities[0].ability} / ${pokemon.abilities[1].ability}", 
-                                // ),
+                                InfoPokemon(
+                                  label: "Habilidades",
+                                  value: abilities
+                                )
                               ],
                             ),
                           const Center(
-                            child: Text("Sobre"),
+                            child: PercentIndicator()
                           ),
                           Center(
                             child: Text("Sobre"),

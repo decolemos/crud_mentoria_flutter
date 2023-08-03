@@ -12,7 +12,7 @@ class InfoPokemon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(label),
+        Text("$label: "),
         Text(value),
       ],
     );
