@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/additional_info.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/card_type_pokemon.dart';
+import 'package:list_crud_pokemon/pages/poke_perfil/components/percent_indicator.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/title_nome_pokemon.dart';
 import 'package:list_crud_pokemon/providers/lista_tipo.dart';
 import '../../models/pokemon.dart';

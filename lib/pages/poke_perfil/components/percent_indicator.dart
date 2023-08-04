@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class PercentIndicator extends StatelessWidget {
-  const PercentIndicator({super.key});
+
+  final Color color;
+  final int value;
+
+  const PercentIndicator({super.key, required this.color, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -13,25 +17,13 @@ class PercentIndicator extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Row(
-                 children: [
-                  const SizedBox(
-                    width: 80,
-                    child: Text("HP")
-                  ),
-                  const SizedBox(
-                    width: 50,
-                    child: Text("45")
-                  ),
-                  LinearPercentIndicator(
-                    barRadius: const Radius.circular(10),
-                    padding: EdgeInsets.zero,
-                    width: MediaQuery.of(context).size.width - 190,
-                    lineHeight: 8.0,
-                    percent: 0.45,
-                    progressColor: Colors.red,
-                  )
-                 ],
+               LinearPercentIndicator(
+                 barRadius: const Radius.circular(10),
+                 padding: EdgeInsets.zero,
+                 width: MediaQuery.of(context).size.width - 230,
+                 lineHeight: 8.0,
+                 percent: (value * 100 / 255) / 100,
+                 progressColor: color,
                ),
             ],
           )

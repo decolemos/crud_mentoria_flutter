@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/info_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/percent_indicator.dart';
 import '../../../models/pokemon.dart';
+import 'base_stats.dart';
 
 class AdditionalInfo extends StatelessWidget {
 
@@ -101,8 +102,24 @@ class AdditionalInfo extends StatelessWidget {
                                 )
                               ],
                             ),
-                          const Center(
-                            child: PercentIndicator()
+                          Center(
+                            child: Column(
+                              children: [
+                                for(int index = 0; index < pokemon.baseStatsList!.length; index++)
+                                Row(
+                                  children: [
+                                    BaseStats(
+                                      label: pokemon.baseStatsList![index].name,
+                                      value: pokemon.baseStatsList![index].baseStats,
+                                    ),
+                                    PercentIndicator(
+                                      color: Colors.blue,
+                                      value: pokemon.baseStatsList![index].baseStats,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           Center(
                             child: Text("Sobre"),

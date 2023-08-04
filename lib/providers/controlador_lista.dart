@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
+import 'package:list_crud_pokemon/models/base_stats_pokemon.dart';
 import '../models/pokemon.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,7 +29,8 @@ class ControladorLista extends ChangeNotifier {
           nome: jsonResponse[key]["nome"],
           primeiroTipo: jsonResponse[key]["primeiroTipo"], 
           segundoTipo: jsonResponse[key]["segundoTipo"],
-          abilities: []
+          abilities: [],
+          baseStatsList: []
           )
         );
       }
@@ -73,7 +75,8 @@ class ControladorLista extends ChangeNotifier {
         nome: nome, 
         primeiroTipo: primeiroTipo, 
         segundoTipo: segundoTipo,
-        abilities: []
+        abilities: [],
+        baseStatsList: []
         )
       );
       notifyListeners();
@@ -89,7 +92,7 @@ class ControladorLista extends ChangeNotifier {
         Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
       final jsonResponse = jsonDecode(response.body);
 
-      for(int index = 0; index < jsonResponse["abilities"].length; index++){
+      for(int index = 0; index < jsonResponse["abilities"].length; index++) {
       pokemon.abilities.add(
         AbilitiePokemon(
           ability: (jsonResponse["abilities"][index]["ability"]["name"]), 
@@ -97,6 +100,16 @@ class ControladorLista extends ChangeNotifier {
           )
         );
       }
+
+      for(int index = 0; index < jsonResponse["stats"].length; index++) {
+        pokemon.baseStatsList?.add(
+          BaseStatsPokemon(
+            baseStats: (jsonResponse["stats"][index]["base_stat"]), 
+            name: (jsonResponse["stats"][index]["stat"]["name"]),
+          )
+        );
+      }
+
       pokemon.heigth = jsonResponse["height"];
       pokemon.weight = jsonResponse["weight"];
       pokemon.imagePokemon = 
