@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
 import 'package:list_crud_pokemon/models/base_stats_pokemon.dart';
+import 'package:list_crud_pokemon/models/evolution.dart';
 import '../models/pokemon.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,9 +16,11 @@ class ControladorLista extends ChangeNotifier {
 
   final String url = "https://crudpokemonfirebase-default-rtdb.firebaseio.com";
   final String urlPokeApi = "https://pokeapi.co/api/v2/pokemon";
+  final String urlPokeSpecies = "https://pokeapi.co/api/v2/pokemon-species";
 
   Future<void> buscarPokemonViaApi() async {
     try {
+      buscarCadeiaEvolucao("Pikachu");
       final response = await http.get(Uri.parse("$url/pokemons.json"));
       final jsonResponse = jsonDecode(response.body);
 
@@ -70,13 +73,14 @@ class ControladorLista extends ChangeNotifier {
       log(response.body.toString());
 
       final jsonResponse = jsonDecode(response.body);
+
       await adicionarPokemonLista(Pokemon(
-        id: jsonResponse["name"], 
-        nome: nome, 
-        primeiroTipo: primeiroTipo, 
-        segundoTipo: segundoTipo,
-        abilities: [],
-        baseStatsList: []
+          id: jsonResponse["name"], 
+          nome: nome, 
+          primeiroTipo: primeiroTipo, 
+          segundoTipo: segundoTipo,
+          abilities: [],
+          baseStatsList: []
         )
       );
       notifyListeners();
@@ -120,6 +124,40 @@ class ControladorLista extends ChangeNotifier {
     }
     _pokemons.add(pokemon);
   }
+
+  Future<List<Evolution>> buscarCadeiaEvolucao(String nome) async {
+    final response = await http.get(Uri.parse("$urlPokeSpecies/${nome.toLowerCase()}"));
+    final jsonResponse = jsonDecode(response.body);
+
+    final String evolutionChain = jsonResponse["evolution_chain"]["url"];
+    log(evolutionChain);
+
+    final evolutionChainReponse = await http.get(Uri.parse(evolutionChain));
+    final jsonEvolutionChainReponse = jsonDecode(evolutionChainReponse.body);
+
+    bool completeChainFound = false;
+    dynamic chainPath = jsonEvolutionChainReponse["chain"];
+    List<Evolution> evolutionList = [];
+
+    while(completeChainFound == false) {
+      String nome = chainPath["species"]["name"];
+      String? trigger;
+      if(chainPath["evolution_details"].isEmpty) {
+        trigger = null;
+      } else {
+       trigger = chainPath["evolution_details"][0]["trigger"]["name"];
+      }
+      if(chainPath["evolves_to"].isEmpty){
+        completeChainFound = true;
+      } else {
+        chainPath = chainPath["evolves_to"][0];
+      }
+      log(nome);
+      log(trigger.toString());
+    }
+    return [];
+
+  }
   
 
   Future<void> editarPokemon(
@@ -156,8 +194,7 @@ class ControladorLista extends ChangeNotifier {
     notifyListeners();
 
   }
-
-  
+ 
   Future<void> removerPokemon(String id) async {
     await http.delete(Uri.parse("$url/pokemons/$id.json"));
     int index = _pokemons.indexWhere((pokemon) => pokemon.id == id);

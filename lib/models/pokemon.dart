@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
 import 'package:list_crud_pokemon/models/base_stats_pokemon.dart';
+import 'package:list_crud_pokemon/models/evolution.dart';
 
 class Pokemon {
   String id;
@@ -12,6 +13,7 @@ class Pokemon {
   int? weight;
   List<AbilitiePokemon> abilities;
   List<BaseStatsPokemon>? baseStatsList;
+  List<Evolution>? evolutionChain;
   
   Pokemon({
     required this.id,
@@ -23,5 +25,6 @@ class Pokemon {
     this.weight,
     required this.abilities,
     this.baseStatsList,
+    this.evolutionChain,
   });
 }
