@@ -1,6 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:list_crud_pokemon/pages/poke_perfil/components/info_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/percent_indicator.dart';
+
 import '../../../models/pokemon.dart';
 import 'base_stats.dart';
 
@@ -10,11 +13,12 @@ class AdditionalInfo extends StatelessWidget {
   final String titleSecondtInfo;
   final Pokemon pokemon;
 
-  const AdditionalInfo({super.key, 
-    required this.titleFirstInfo, 
-    required this.titleSecondtInfo, 
-    required this.pokemon, 
-  });
+  const AdditionalInfo({
+    Key? key,
+    required this.titleFirstInfo,
+    required this.titleSecondtInfo,
+    required this.pokemon,
+  }) : super(key: key);
 
   String get abilities {
     String value = "";
@@ -28,8 +32,12 @@ class AdditionalInfo extends StatelessWidget {
     return value;
   }
 
+
   @override
   Widget build(BuildContext context) {
+
+  int index = 0;
+  
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(40),
@@ -122,7 +130,21 @@ class AdditionalInfo extends StatelessWidget {
                             ),
                           ),
                           Center(
-                            child: Text("Sobre"),
+                            child: Row(
+                              children: [
+                                Column(
+                                  children: [
+                                  for (int index = 0; index < pokemon.evolutionChain!.length - 1; index++)
+                                    Text(pokemon.evolutionChain![index].name),      
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  for (int index = 1; index < pokemon.evolutionChain!.length; index++)
+                                    Text(pokemon.evolutionChain![index].name),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           Center(
                             child: Text("Sobre"),

@@ -33,7 +33,8 @@ class ControladorLista extends ChangeNotifier {
           primeiroTipo: jsonResponse[key]["primeiroTipo"], 
           segundoTipo: jsonResponse[key]["segundoTipo"],
           abilities: [],
-          baseStatsList: []
+          baseStatsList: [],
+          evolutionChain: await buscarCadeiaEvolucao(jsonResponse[key]["nome"])
           )
         );
       }
@@ -125,8 +126,8 @@ class ControladorLista extends ChangeNotifier {
     _pokemons.add(pokemon);
   }
 
-  Future<List<Evolution>> buscarCadeiaEvolucao(String nome) async {
-    final response = await http.get(Uri.parse("$urlPokeSpecies/${nome.toLowerCase()}"));
+  Future<List<Evolution>> buscarCadeiaEvolucao(String nomePokemon) async {
+    final response = await http.get(Uri.parse("$urlPokeSpecies/${nomePokemon.toLowerCase()}"));
     final jsonResponse = jsonDecode(response.body);
 
     final String evolutionChain = jsonResponse["evolution_chain"]["url"];
@@ -142,10 +143,15 @@ class ControladorLista extends ChangeNotifier {
     while(completeChainFound == false) {
       String nome = chainPath["species"]["name"];
       String? trigger;
+      String urlImg = "";
+      int? minLevel;
       if(chainPath["evolution_details"].isEmpty) {
         trigger = null;
+        minLevel = null;
       } else {
+       minLevel = chainPath["evolution_details"][0]["min_level"];
        trigger = chainPath["evolution_details"][0]["trigger"]["name"];
+       urlImg = "";
       }
       if(chainPath["evolves_to"].isEmpty){
         completeChainFound = true;
@@ -154,12 +160,19 @@ class ControladorLista extends ChangeNotifier {
       }
       log(nome);
       log(trigger.toString());
-    }
-    return [];
 
+      evolutionList.add(Evolution(
+        name: nome, 
+        urlImg: urlImg, 
+        trigger: trigger, 
+        minLevel: minLevel,
+      )
+    );
+
+    }
+    return evolutionList;
   }
   
-
   Future<void> editarPokemon(
     String id, 
     String novoNome, 

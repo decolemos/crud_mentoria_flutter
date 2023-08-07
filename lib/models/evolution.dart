@@ -2,8 +2,8 @@
 class Evolution {
   String name;
   String urlImg;
-  String trigger;
-  int minLevel;
+  String? trigger;
+  int? minLevel;
 
   Evolution({
     required this.name,
