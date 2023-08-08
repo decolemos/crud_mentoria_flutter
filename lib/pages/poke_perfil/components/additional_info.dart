@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:list_crud_pokemon/models/evolution.dart';
 
 import 'package:list_crud_pokemon/pages/poke_perfil/components/info_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/percent_indicator.dart';
@@ -32,11 +33,19 @@ class AdditionalInfo extends StatelessWidget {
     return value;
   }
 
+  List<List<Evolution>> get newEvolution {
+    List<List<Evolution>> newListEvolution = [];
+    for(int index = 0; index < pokemon.evolutionChain!.length; index++){
+      if(index + 1 != pokemon.evolutionChain!.length){
+        newListEvolution.add([pokemon.evolutionChain![index], pokemon.evolutionChain![index + 1]]);
+      }
+    }
+    return newListEvolution;
+  }
+
 
   @override
   Widget build(BuildContext context) {
-
-  int index = 0;
   
     return ClipRRect(
       borderRadius: const BorderRadius.only(
@@ -134,20 +143,26 @@ class AdditionalInfo extends StatelessWidget {
                               children: [
                                 Column(
                                   children: [
-                                  for (int index = 0; index < pokemon.evolutionChain!.length - 1; index++)
-                                    Text(pokemon.evolutionChain![index].name),      
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  for (int index = 1; index < pokemon.evolutionChain!.length; index++)
-                                    Text(pokemon.evolutionChain![index].name),
+                                    for(int index = 0; index < newEvolution.length; index++)
+                                    Text(newEvolution[index][0].name),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    for(int index = 0; index < newEvolution.length; index++)
+                                    Text(newEvolution[index][1].name),
                                   ],
                                 ),
                               ],
                             ),
                           ),
                           Center(
-                            child: Text("Sobre"),
+                            child: Column(
+                              children: [
+                                for(int index = 0; index < pokemon.moveList!.length; index++)
+                                Text(pokemon.moveList![index].name)
+                              ],
+                            ),
                           ),
                         ]
                       ),

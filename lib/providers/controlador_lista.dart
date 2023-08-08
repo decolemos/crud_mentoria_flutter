@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
 import 'package:list_crud_pokemon/models/base_stats_pokemon.dart';
 import 'package:list_crud_pokemon/models/evolution.dart';
+import 'package:list_crud_pokemon/models/move.dart';
 import '../models/pokemon.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,7 +21,6 @@ class ControladorLista extends ChangeNotifier {
 
   Future<void> buscarPokemonViaApi() async {
     try {
-      buscarCadeiaEvolucao("Pikachu");
       final response = await http.get(Uri.parse("$url/pokemons.json"));
       final jsonResponse = jsonDecode(response.body);
 
@@ -34,6 +34,7 @@ class ControladorLista extends ChangeNotifier {
           segundoTipo: jsonResponse[key]["segundoTipo"],
           abilities: [],
           baseStatsList: [],
+          moveList: [],
           evolutionChain: await buscarCadeiaEvolucao(jsonResponse[key]["nome"])
           )
         );
@@ -81,7 +82,8 @@ class ControladorLista extends ChangeNotifier {
           primeiroTipo: primeiroTipo, 
           segundoTipo: segundoTipo,
           abilities: [],
-          baseStatsList: []
+          baseStatsList: [],
+          moveList: []
         )
       );
       notifyListeners();
@@ -131,7 +133,6 @@ class ControladorLista extends ChangeNotifier {
     final jsonResponse = jsonDecode(response.body);
 
     final String evolutionChain = jsonResponse["evolution_chain"]["url"];
-    log(evolutionChain);
 
     final evolutionChainReponse = await http.get(Uri.parse(evolutionChain));
     final jsonEvolutionChainReponse = jsonDecode(evolutionChainReponse.body);
@@ -171,6 +172,18 @@ class ControladorLista extends ChangeNotifier {
 
     }
     return evolutionList;
+  }
+
+  Future<void> buscarAtaquesPokemon(Pokemon pokemon) async {
+    final response = await http.get(
+        Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
+    final jsonResponse = jsonDecode(response.body);
+
+    for(int index = 0; index < jsonResponse["moves"].lenght; index++){
+      pokemon.moveList!.add(Move(
+        name: jsonResponse["moves"][index]["move"]["name"]
+      ));
+    }
   }
   
   Future<void> editarPokemon(
