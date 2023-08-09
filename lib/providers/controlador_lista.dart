@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
 import 'package:list_crud_pokemon/models/base_stats_pokemon.dart';
 import 'package:list_crud_pokemon/models/evolution.dart';
-import 'package:list_crud_pokemon/models/move.dart';
 import '../models/pokemon.dart';
 import 'package:http/http.dart' as http;
 
@@ -39,9 +38,7 @@ class ControladorLista extends ChangeNotifier {
           )
         );
       }
-
       notifyListeners();
-
     } catch (e) {
       log(e.toString());
     }
@@ -54,7 +51,6 @@ class ControladorLista extends ChangeNotifier {
 
   Future<void> adicionarPokemonFirebase(String nome, String primeiroTipo, String? segundoTipo) async {
     print(segundoTipo == null);
-
     bool pokemonExiste = verificarSeNomeExiste(nome);
 
     if(pokemonExiste){
@@ -71,8 +67,6 @@ class ControladorLista extends ChangeNotifier {
           "segundoTipo": segundoTipo
         })
       );
-
-      log(response.body.toString());
 
       final jsonResponse = jsonDecode(response.body);
 
@@ -98,6 +92,8 @@ class ControladorLista extends ChangeNotifier {
       final response = await http.get(
         Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
       final jsonResponse = jsonDecode(response.body);
+
+      pokemon.moveList = buscarAtaquesPokemon(jsonResponse);
 
       for(int index = 0; index < jsonResponse["abilities"].length; index++) {
       pokemon.abilities.add(
@@ -149,9 +145,23 @@ class ControladorLista extends ChangeNotifier {
       if(chainPath["evolution_details"].isEmpty) {
         trigger = null;
         minLevel = null;
+        evolutionList.add(Evolution(
+          name: nome, 
+          urlImg: urlImg, 
+          trigger: trigger, 
+          minLevel: minLevel,
+        ));
       } else {
-       minLevel = chainPath["evolution_details"][0]["min_level"];
-       trigger = chainPath["evolution_details"][0]["trigger"]["name"];
+        for(int index = 0; index < chainPath["evolves_to"].length; index++){
+          minLevel = chainPath["evolution_details"][0]["min_level"];
+          trigger = chainPath["evolution_details"][0]["trigger"]["name"];
+          evolutionList.add(Evolution(
+            name: nome, 
+            urlImg: urlImg, 
+            trigger: trigger, 
+            minLevel: minLevel,
+          ));
+        }
        urlImg = "";
       }
       if(chainPath["evolves_to"].isEmpty){
@@ -159,31 +169,16 @@ class ControladorLista extends ChangeNotifier {
       } else {
         chainPath = chainPath["evolves_to"][0];
       }
-      log(nome);
-      log(trigger.toString());
-
-      evolutionList.add(Evolution(
-        name: nome, 
-        urlImg: urlImg, 
-        trigger: trigger, 
-        minLevel: minLevel,
-      )
-    );
-
     }
     return evolutionList;
   }
 
-  Future<void> buscarAtaquesPokemon(Pokemon pokemon) async {
-    final response = await http.get(
-        Uri.parse("$urlPokeApi/${pokemon.nome.toLowerCase()}"));
-    final jsonResponse = jsonDecode(response.body);
-
-    for(int index = 0; index < jsonResponse["moves"].lenght; index++){
-      pokemon.moveList!.add(Move(
-        name: jsonResponse["moves"][index]["move"]["name"]
-      ));
+  List<String> buscarAtaquesPokemon(dynamic jsonResponse) {
+    List<String> newMoveList = [];
+    for(int index = 0; index < jsonResponse["moves"].length; index++){
+      newMoveList.add(jsonResponse["moves"][index]["move"]["name"]); 
     }
+    return newMoveList;
   }
   
   Future<void> editarPokemon(

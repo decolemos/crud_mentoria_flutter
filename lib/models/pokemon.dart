@@ -2,9 +2,6 @@
 import 'package:list_crud_pokemon/models/abilitie_pokemon.dart';
 import 'package:list_crud_pokemon/models/base_stats_pokemon.dart';
 import 'package:list_crud_pokemon/models/evolution.dart';
-
-import 'move.dart';
-
 class Pokemon {
   String id;
   String nome;
@@ -16,7 +13,7 @@ class Pokemon {
   List<AbilitiePokemon> abilities;
   List<BaseStatsPokemon>? baseStatsList;
   List<Evolution>? evolutionChain;
-  List<Move>? moveList;
+  List<String>? moveList;
   
   Pokemon({
     required this.id,

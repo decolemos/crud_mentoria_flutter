@@ -138,31 +138,28 @@ class AdditionalInfo extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Center(
-                            child: Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    for(int index = 0; index < newEvolution.length; index++)
-                                    Text(newEvolution[index][0].name),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    for(int index = 0; index < newEvolution.length; index++)
-                                    Text(newEvolution[index][1].name),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          Column(
+                            children: 
+                              List.generate(newEvolution.length, (index) => Row(
+                                children: [
+                                  Text(newEvolution[index][0].name),
+                                  Text(newEvolution[index][1].name),
+                                ],
+                              )
+                            )
                           ),
-                          Center(
-                            child: Column(
-                              children: [
-                                for(int index = 0; index < pokemon.moveList!.length; index++)
-                                Text(pokemon.moveList![index].name)
-                              ],
-                            ),
+                          ListView(
+                            children: [
+                              Column(
+                                children: 
+                                  List.generate(pokemon.moveList!.length, (index) => Row(
+                                    children: [
+                                      Text(pokemon.moveList![index])
+                                    ],
+                                  )
+                                )
+                              ),
+                            ],
                           ),
                         ]
                       ),
