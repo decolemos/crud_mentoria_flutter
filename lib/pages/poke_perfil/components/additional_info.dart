@@ -33,17 +33,6 @@ class AdditionalInfo extends StatelessWidget {
     return value;
   }
 
-  List<List<Evolution>> get newEvolution {
-    List<List<Evolution>> newListEvolution = [];
-    for(int index = 0; index < pokemon.evolutionChain!.length; index++){
-      if(index + 1 != pokemon.evolutionChain!.length){
-        newListEvolution.add([pokemon.evolutionChain![index], pokemon.evolutionChain![index + 1]]);
-      }
-    }
-    return newListEvolution;
-  }
-
-
   @override
   Widget build(BuildContext context) {
   
@@ -140,10 +129,10 @@ class AdditionalInfo extends StatelessWidget {
                           ),
                           Column(
                             children: 
-                              List.generate(newEvolution.length, (index) => Row(
+                              List.generate(pokemon.evolutionChain!.length, (index) => Row(
                                 children: [
-                                  Text(newEvolution[index][0].name),
-                                  Text(newEvolution[index][1].name),
+                                  Text(pokemon.evolutionChain![index][0].name),
+                                  Text(pokemon.evolutionChain![index][1].name),
                                 ],
                               )
                             )

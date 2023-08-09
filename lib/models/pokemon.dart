@@ -12,7 +12,7 @@ class Pokemon {
   int? weight;
   List<AbilitiePokemon> abilities;
   List<BaseStatsPokemon>? baseStatsList;
-  List<Evolution>? evolutionChain;
+  List<List<Evolution>>? evolutionChain;
   List<String>? moveList;
   
   Pokemon({

@@ -19,6 +19,7 @@ class ControladorLista extends ChangeNotifier {
   final String urlPokeSpecies = "https://pokeapi.co/api/v2/pokemon-species";
 
   Future<void> buscarPokemonViaApi() async {
+    buscarCadeiaEvolucao("1");
     try {
       final response = await http.get(Uri.parse("$url/pokemons.json"));
       final jsonResponse = jsonDecode(response.body);
@@ -124,7 +125,8 @@ class ControladorLista extends ChangeNotifier {
     _pokemons.add(pokemon);
   }
 
-  Future<List<Evolution>> buscarCadeiaEvolucao(String nomePokemon) async {
+  Future<List<List<Evolution>>> buscarCadeiaEvolucao(String nomePokemon) async {
+    print("$urlPokeSpecies/${nomePokemon.toLowerCase()}");
     final response = await http.get(Uri.parse("$urlPokeSpecies/${nomePokemon.toLowerCase()}"));
     final jsonResponse = jsonDecode(response.body);
 
@@ -135,40 +137,32 @@ class ControladorLista extends ChangeNotifier {
 
     bool completeChainFound = false;
     dynamic chainPath = jsonEvolutionChainReponse["chain"];
-    List<Evolution> evolutionList = [];
+    List<List<Evolution>> evolutionList = [];
 
     while(completeChainFound == false) {
       String nome = chainPath["species"]["name"];
-      String? trigger;
-      String urlImg = "";
-      int? minLevel;
-      if(chainPath["evolution_details"].isEmpty) {
-        trigger = null;
-        minLevel = null;
-        evolutionList.add(Evolution(
-          name: nome, 
-          urlImg: urlImg, 
-          trigger: trigger, 
-          minLevel: minLevel,
-        ));
-      } else {
-        for(int index = 0; index < chainPath["evolves_to"].length; index++){
-          minLevel = chainPath["evolution_details"][0]["min_level"];
-          trigger = chainPath["evolution_details"][0]["trigger"]["name"];
-          evolutionList.add(Evolution(
-            name: nome, 
-            urlImg: urlImg, 
-            trigger: trigger, 
-            minLevel: minLevel,
-          ));
-        }
-       urlImg = "";
+
+      for(int index = 0; index < chainPath["evolves_to"].length; index++){
+        // minLevel = chainPath["evolution_details"][0]["min_level"];
+        // trigger = chainPath["evolution_details"][0]["trigger"]["name"];
+        evolutionList.add([
+          Evolution(
+            name: nome
+          ),
+          Evolution(
+            name: chainPath["evolves_to"][index]["species"]["name"]
+          )
+        ]);
       }
       if(chainPath["evolves_to"].isEmpty){
         completeChainFound = true;
       } else {
         chainPath = chainPath["evolves_to"][0];
       }
+    }
+    for(int index = 0; index < evolutionList.length; index++){
+      log(evolutionList[index][0].name);
+      log(evolutionList[index][1].name);
     }
     return evolutionList;
   }
