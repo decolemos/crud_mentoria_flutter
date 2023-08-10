@@ -51,7 +51,7 @@ class ControladorLista extends ChangeNotifier {
   }
 
   Future<void> adicionarPokemonFirebase(String nome, String primeiroTipo, String? segundoTipo) async {
-    print(segundoTipo == null);
+    // print(segundoTipo == null);
     bool pokemonExiste = verificarSeNomeExiste(nome);
 
     if(pokemonExiste){
@@ -126,7 +126,7 @@ class ControladorLista extends ChangeNotifier {
   }
 
   Future<List<List<Evolution>>> buscarCadeiaEvolucao(String nomePokemon) async {
-    print("$urlPokeSpecies/${nomePokemon.toLowerCase()}");
+    // print("$urlPokeSpecies/${nomePokemon.toLowerCase()}");
     final response = await http.get(Uri.parse("$urlPokeSpecies/${nomePokemon.toLowerCase()}"));
     final jsonResponse = jsonDecode(response.body);
 
@@ -160,10 +160,10 @@ class ControladorLista extends ChangeNotifier {
         chainPath = chainPath["evolves_to"][0];
       }
     }
-    for(int index = 0; index < evolutionList.length; index++){
-      log(evolutionList[index][0].name);
-      log(evolutionList[index][1].name);
-    }
+    // for(int index = 0; index < evolutionList.length; index++){
+    //   log(evolutionList[index][0].name);
+    //   log(evolutionList[index][1].name);
+    // }
     return evolutionList;
   }
 
@@ -182,9 +182,6 @@ class ControladorLista extends ChangeNotifier {
     String? novoSegundoTipo
     ) async {
 
-
-
-
     final response = await http.put(
       Uri.parse("$url/pokemons/$id.json"), 
       body: jsonEncode(
@@ -198,7 +195,7 @@ class ControladorLista extends ChangeNotifier {
     
     final responseImagem = await http.get(Uri.parse("$urlPokeApi/${novoNome.toLowerCase()}"));
     final jsonResponse = jsonDecode(responseImagem.body);
-    final String novoImagemPokemon = jsonResponse["sprites"]["front_default"];
+    final String novoImagemPokemon = jsonResponse["sprites"]["other"]["official-artwork"]["front_default"];
 
     jsonDecode(response.body);
     int index = _pokemons.indexWhere((pokemon) => pokemon.id == id);
@@ -216,5 +213,4 @@ class ControladorLista extends ChangeNotifier {
     _pokemons.removeAt(index);
     notifyListeners();
   }
-
 }

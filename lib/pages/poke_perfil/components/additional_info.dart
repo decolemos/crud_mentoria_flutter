@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:list_crud_pokemon/models/evolution.dart';
-
 import 'package:list_crud_pokemon/pages/poke_perfil/components/info_pokemon.dart';
 import 'package:list_crud_pokemon/pages/poke_perfil/components/percent_indicator.dart';
 
@@ -127,7 +125,11 @@ class AdditionalInfo extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Column(
+                          pokemon.evolutionChain == null || pokemon.evolutionChain!.isEmpty
+                          ? const Center(
+                            child: Text("Esse pokemon não possui evolução"),
+                          )
+                          : Column(
                             children: 
                               List.generate(pokemon.evolutionChain!.length, (index) => Row(
                                 children: [
