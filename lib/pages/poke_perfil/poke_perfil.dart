@@ -29,13 +29,13 @@ class _PokePerfilState extends State<PokePerfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: widget.pokemon.imagePokemon != null ? retornarCorTipo(
+      backgroundColor: widget.pokemon.imagePokemonCard != null ? retornarCorTipo(
         widget.pokemon.primeiroTipo) : Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: widget.pokemon.imagePokemon != null
+      body: widget.pokemon.imagePokemonCard != null
       ? ListView(
         children: [
             TitleNomePokemon(titlePokemonName: widget.pokemon.nome),
@@ -49,7 +49,7 @@ class _PokePerfilState extends State<PokePerfil> {
           Center(
             child: SizedBox(
               height: 200,
-              child: Image.network(widget.pokemon.imagePokemon ?? "")
+              child: Image.network(widget.pokemon.imagePokemonDetail ?? "")
             ),
           ),
           AdditionalInfo(

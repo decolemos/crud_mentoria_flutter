@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:flutter/material.dart';
 import 'package:list_crud_pokemon/models/tipo.dart';
-
 import '../providers/lista_tipo.dart';
 import 'dropdown_tipo.dart';
 
@@ -12,6 +10,7 @@ class ListForm extends StatefulWidget {
   final String title;
   final String labelNome;
   final String hintNome;
+  final String? pokemon;
   final void Function(String nome, String primeiroTipo, String? segundoTipo) executar;
 
   const ListForm({
@@ -20,6 +19,7 @@ class ListForm extends StatefulWidget {
     required this.title,
     required this.labelNome,
     required this.hintNome,
+    this.pokemon,
     required this.executar,
   }) : super(key: key);
 
@@ -49,6 +49,7 @@ class _ListFormState extends State<ListForm> {
       segundoTipo?.nome
     );
     Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -61,6 +62,7 @@ class _ListFormState extends State<ListForm> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
+              initialValue: widget.pokemon,
               decoration: InputDecoration(
                 labelText: widget.labelNome,
                 hintText: widget.hintNome
@@ -73,14 +75,19 @@ class _ListFormState extends State<ListForm> {
               },
               onSaved: (newValue) => _formData["nome"] = newValue!
             ),
-            DropdownOk(alterarTipo: (tipoSelecionado) => primeiroTipo = tipoSelecionado),
-            DropdownOk(alterarTipo: (tipoSelecionado) => segundoTipo = tipoSelecionado)
+            DropdownOk(
+              alterarTipo: (tipoSelecionado) => primeiroTipo = tipoSelecionado,
+            ),
+            DropdownOk(
+              alterarTipo: (tipoSelecionado) => segundoTipo = tipoSelecionado
+            )
           ],
         ),
       ),
       actions: [
         TextButton(
           onPressed: () {
+            Navigator.of(context).pop();
             Navigator.of(context).pop();
           }, 
           child: const Text("Cancelar")

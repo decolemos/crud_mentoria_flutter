@@ -5,7 +5,12 @@ import '../models/pokemon.dart';
 
 class PopupMenu extends StatelessWidget {
   final Pokemon pokemon;
-  final void Function() editarPokemon;
+  final void Function(
+    String id,
+    String novoNome, 
+    String novoPrimeiroTipo, 
+    String? novoSegundoTipo
+  ) editarPokemon;
   final void Function(String id) removerPokemon;
   // final Color? corSelecionada;
 
@@ -30,21 +35,32 @@ class PopupMenu extends StatelessWidget {
                     builder: (context) => ListForm(
                       title: "Editar Pokemon", 
                       labelNome: "Novo Pokemon", 
-                      hintNome: "Informe o nome de outro pokemon", 
+                      hintNome: "Informe o nome de outro pokemon",
+                      pokemon: pokemon.nome,
                       executar: (nome, primeiroTipo, segundoTipo) {
-                        editarPokemon();
+                        editarPokemon(pokemon.id, nome, primeiroTipo, segundoTipo);
                       },
                     ),
                   );
                 }, 
-                child: const Text("Editar Pokemon")
+                child: const Row(
+                  children: [
+                    Text("Editar Pokemon"),
+                    Icon(Icons.edit)
+                  ],
+                )
               ),
               ElevatedButton(
                 onPressed: () {
                   removerPokemon(pokemon.id);
                   Navigator.pop(context);
                 }, 
-                child: const Text("Remover Pokemon")
+                child: const Row(
+                  children: [
+                    Text("Remover Pokemon"),
+                    Icon(Icons.delete_forever_outlined)
+                  ],
+                )
               ),
             ],
           ),
@@ -53,34 +69,3 @@ class PopupMenu extends StatelessWidget {
     );
   }
 }
-
-// return PopupMenuButton(itemBuilder: (context) {
-    //     return [
-    //       const PopupMenuItem<int>(
-    //         value: 0,
-    //         child: Row(
-    //           children: [
-    //             Text("Editar"),
-    //             Icon(Icons.edit)
-    //           ],
-    //         )
-    //       ),
-    //       const PopupMenuItem<int>(
-    //         value: 1,
-    //         child: Row(
-    //           children: [
-    //             Text("Remover"),
-    //             Icon(Icons.delete)
-    //           ],
-    //         )
-    //       ),
-    //     ];
-    //   },
-      // onSelected: (value) {
-      //   if(value == 0){
-      //     widget.editarPokemon();
-      //   } else if (value == 1) {
-      //     widget.removerPokemon(widget.pokemon.id);
-      //   }
-      // },
-    // );

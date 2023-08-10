@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:list_crud_pokemon/models/pokemon.dart';
 import 'package:provider/provider.dart';
 import '../components/card_pokemon.dart';
 import '../components/list_form.dart';
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                   hintNome: "Informe o nome do pokemon",
                   executar: (nome, primeiroTipo, segundoTipo) {
                     provider.adicionarPokemonFirebase(nome, primeiroTipo, segundoTipo);
-                  },
+                  }, 
                 ),
               );
             }, 
@@ -66,48 +67,20 @@ class _HomePageState extends State<HomePage> {
       ? const Center(
         child: Text("Nenhum pokemon adicionado"),
       )
-      : Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 15,
-            childAspectRatio: 1.3
-          ),
-          itemCount: provider.pokemons.length, 
-          itemBuilder: (context, index) {
-            return GridviewPokemon(
-              pokemon: provider.pokemons[index],
-            );
-          },
+      : GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 15,
+          childAspectRatio: 1.3
         ),
+        itemCount: provider.pokemons.length, 
+        itemBuilder: (context, index) {
+          return GridviewPokemon(
+            pokemon: provider.pokemons[index],
+          );
+        },
       ),
     );
   }
 }
-
-      // ListView.builder(
-      //   itemCount: provider.pokemons.length,
-      //   itemBuilder: (context, index) {
-      //     return 
-      //     // PokemonListTile(
-      //     //   pokemon: provider.pokemons[index],
-      //     //   removerPokemon: (id) {
-      //     //     provider.removerPokemon(id);
-      //     //   },
-      //     //   editarPokemon: () => showDialog(
-      //     //     context: context, 
-      //     //     builder: (context) {
-      //     //       return ListForm(
-      //     //         title: "Editar pokemon", 
-      //     //         labelNome: "Novo nome", 
-      //     //         hintNome: "Informe um novo nome", 
-      //     //         executar: (nome, primeiroTipo, segundoTipo) {
-      //     //           provider.editarPokemon(provider.pokemons[index].id, nome, primeiroTipo, segundoTipo);
-      //     //         },
-      //     //       );
-      //     //     }
-      //     //   ),
-      //     // );
-      //   },

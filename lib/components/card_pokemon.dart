@@ -45,6 +45,7 @@ class _GridviewPokemonState extends State<GridviewPokemon> {
         );
       },
       child: Container(
+        margin: const EdgeInsets.only(left: 10, right: 10),
         decoration: BoxDecoration(
           boxShadow: const [
             BoxShadow(
@@ -76,7 +77,7 @@ class _GridviewPokemonState extends State<GridviewPokemon> {
                     builder: (context) => PopupMenu(
                       pokemon: widget.pokemon,
                       removerPokemon: (id) => provider.removerPokemon(id),
-                      editarPokemon: () => provider.editarPokemon,
+                      editarPokemon: provider.editarPokemon,
                     ),
                   );
                 }, 
@@ -97,7 +98,7 @@ class _GridviewPokemonState extends State<GridviewPokemon> {
                 margin: const EdgeInsets.only(right: 10),
                 width: 70,
                 height: 90,
-                child: ImgPokemon(url: widget.pokemon.imagePokemon)
+                child: ImgPokemon(url: widget.pokemon.imagePokemonCard)
               ),
             ],
           ),

@@ -7,7 +7,8 @@ class Pokemon {
   String nome;
   String primeiroTipo;
   String? segundoTipo;
-  String? imagePokemon;
+  String? imagePokemonCard;
+  String? imagePokemonDetail;
   int? heigth;
   int? weight;
   List<AbilitiePokemon> abilities;
@@ -20,7 +21,8 @@ class Pokemon {
     required this.nome,
     required this.primeiroTipo,
     this.segundoTipo,
-    this.imagePokemon,
+    this.imagePokemonCard,
+    this.imagePokemonDetail,
     this.heigth,
     this.weight,
     required this.abilities,

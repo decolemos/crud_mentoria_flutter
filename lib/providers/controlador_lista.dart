@@ -116,8 +116,10 @@ class ControladorLista extends ChangeNotifier {
 
       pokemon.heigth = jsonResponse["height"];
       pokemon.weight = jsonResponse["weight"];
-      pokemon.imagePokemon = 
+      pokemon.imagePokemonCard = 
         jsonResponse["sprites"]["other"]["official-artwork"]["front_default"];
+      pokemon.imagePokemonDetail = 
+        jsonResponse["sprites"]["other"]["home"]["front_default"];
 
     } catch (e) {
       log(e.toString());
@@ -202,7 +204,7 @@ class ControladorLista extends ChangeNotifier {
     _pokemons[index].nome = novoNome;
     _pokemons[index].primeiroTipo = novoPrimeiroTipo;
     _pokemons[index].segundoTipo = novoSegundoTipo;  
-    _pokemons[index].imagePokemon = novoImagemPokemon;
+    _pokemons[index].imagePokemonCard = novoImagemPokemon;
     notifyListeners();
 
   }

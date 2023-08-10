@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
@@ -88,16 +89,7 @@ class _DropdownOkState extends State<DropdownOk> {
                 ),
                 color: corAtual,
               ),
-              // elevation: 2,
             ),
-            // iconStyleData: const IconStyleData(
-            //   icon: Icon(
-            //     Icons.arrow_forward_ios_outlined,
-            //   ),
-            //   iconSize: 14,
-            //   iconEnabledColor: Colors.yellow,
-            //   iconDisabledColor: Colors.grey,
-            // ),
             dropdownStyleData: DropdownStyleData(
               padding: const EdgeInsets.all(0),
               maxHeight: 200,
